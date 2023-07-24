@@ -411,5 +411,24 @@ module.exports = (sequelize, DataTypes) => {
       DataTypes
     );
 
+  // ===== Service category start ====//
+  db.ServiceCategory =
+    require("../modules/serviceCategory/models/serviceCategory.model.js")(
+      sequelize,
+      DataTypes
+    );
+
+  db.role.hasMany(db.ServiceCategory, {
+    foreignKey: {
+      name: "role_id",
+    },
+  });
+  db.ServiceCategory.belongsTo(db.role, {
+    foreignKey: {
+      name: "role_id",
+    },
+  });
+  // ===== Service category end====//
+
   return db;
 };
