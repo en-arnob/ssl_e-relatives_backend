@@ -1,7 +1,7 @@
-const errorHandler = require('../../../utils/errorHandler');
-const errorResponse = require('../../../utils/errorResponse');
-const successResponse = require('../../../utils/successResponse');
-const db = require('../../../config/database.config');
+const errorHandler = require("../../../utils/errorHandler");
+const errorResponse = require("../../../utils/errorResponse");
+const successResponse = require("../../../utils/successResponse");
+const db = require("../../../config/database.config");
 
 const Role = db.model.role;
 
@@ -11,7 +11,7 @@ exports.create = async (req, res) => {
     console.log(roleData);
 
     if (!roleData) {
-      errorResponse(400, 'FAILED', 'Content can not be empty!', res);
+      errorResponse(400, "FAILED", "Content can not be empty!", res);
     } else {
       const dataObj = {
         name: roleData.name,
@@ -21,13 +21,13 @@ exports.create = async (req, res) => {
       };
 
       const data = await Role.create(dataObj);
-      successResponse(201, 'OK', data, res);
+      successResponse(201, "OK", data, res);
     }
   } catch (err) {
     errorResponse(
       500,
-      'ERROR',
-      err.message || 'Some error occurred while creating the User Role.',
+      "ERROR",
+      err.message || "Some error occurred while creating the User Role.",
       res
     );
   }
@@ -37,15 +37,15 @@ exports.findAll = async (req, res) => {
   try {
     const query = await Role.findAll();
     if (query.length > 0) {
-      successResponse(200, 'OK', query, res);
+      successResponse(200, "OK", query, res);
     } else {
-      res.send({ message: 'No Role Found!' });
+      res.send({ message: "No Role Found!" });
     }
   } catch (err) {
     errorResponse(
       500,
-      'ERROR',
-      err.message || 'Some error occurred while finding Users Role.',
+      "ERROR",
+      err.message || "Some error occurred while finding Users Role.",
       res
     );
   }
@@ -60,8 +60,8 @@ exports.findOne = async (req, res) => {
 
     if (data) {
       res.status(200).send({
-        status: 'success',
-        message: 'single Role data',
+        status: "success",
+        message: "single Role data",
         data: data,
       });
     } else {
@@ -72,8 +72,8 @@ exports.findOne = async (req, res) => {
   } catch (err) {
     errorResponse(
       500,
-      'ERROR',
-      err.message || 'Some error occurred while creating the Post.',
+      "ERROR",
+      err.message || "Some error occurred while creating the Post.",
       res
     );
   }
@@ -100,14 +100,14 @@ exports.update = async (req, res) => {
           },
         });
         res.status(200).send({
-          status: 'success',
-          message: 'Role updated successfully',
+          status: "success",
+          message: "Role updated successfully",
           data: data,
         });
       } else {
         res.send({
-          status: 'error',
-          message: 'Required Fields Cannot be Empty!!!',
+          status: "error",
+          message: "Required Fields Cannot be Empty!!!",
         });
       }
     } else {
@@ -118,8 +118,8 @@ exports.update = async (req, res) => {
   } catch (err) {
     errorResponse(
       500,
-      'ERROR',
-      err.message || 'Some error occurred while Updateing the User Role.',
+      "ERROR",
+      err.message || "Some error occurred while Updateing the User Role.",
       res
     );
   }
@@ -138,7 +138,7 @@ exports.delete = async (req, res) => {
       });
 
       if (result === 1) {
-        res.send({ data: result, message: 'Role deleted Successfully!' });
+        res.send({ data: result, message: "Role deleted Successfully!" });
       }
     } else {
       res.send({
@@ -148,8 +148,31 @@ exports.delete = async (req, res) => {
   } catch (err) {
     errorHandler(
       500,
-      'ERROR',
-      err.message || 'Some error occurred while Deleting User Role.',
+      "ERROR",
+      err.message || "Some error occurred while Deleting User Role.",
+      res
+    );
+  }
+};
+
+exports.findByPriority = async (req, res) => {
+  const prior = req.params.priority;
+  try {
+    const query = await Role.findAll({
+      where: {
+        priority: prior,
+      },
+    });
+    if (query.length > 0) {
+      successResponse(200, "OK", query, res);
+    } else {
+      res.send({ message: "No Role Found!" });
+    }
+  } catch (err) {
+    errorResponse(
+      500,
+      "ERROR",
+      err.message || "Some error occurred while finding Users Role.",
       res
     );
   }
