@@ -1,22 +1,22 @@
+module.exports = (app) => {
+  const ServiceCategoryRouter = require("express").Router();
+  const ServiceCategory = require("../controllers/serviceCategory.controller");
 
-module.exports = app => {
+  //create a post
+  ServiceCategoryRouter.post("/", ServiceCategory.create);
+  // Retrieve all Posts
+  ServiceCategoryRouter.get("/", ServiceCategory.findAll);
+  // Retrieve a single Post with id
+  ServiceCategoryRouter.get("/:id", ServiceCategory.findOne);
+  // Update a Post with id
+  ServiceCategoryRouter.put("/:id", ServiceCategory.update);
+  // Delete a Post with id
+  ServiceCategoryRouter.delete("/:id", ServiceCategory.delete);
+  // Delete all Posts
+  ServiceCategoryRouter.delete("/", ServiceCategory.deleteAll);
 
-    const staticRouter = require("express").Router();
-    const ServiceCategory = require("..//controllers/serviceCategory.controller");
+  //Find ServiceCategory by roleId
+  ServiceCategoryRouter.get("/findbyrole/:roleId", ServiceCategory.findByRole);
 
-    //create a post
-    staticRouter.post("/", ServiceCategory.create);
-    // Retrieve all Posts
-    staticRouter.get("/", ServiceCategory.findAll);
-    // Retrieve a single Post with id
-    staticRouter.get("/:id", ServiceCategory.findOne);
-    // Update a Post with id
-    staticRouter.put("/:id", ServiceCategory.update);
-    // Delete a Post with id
-    staticRouter.delete("/:id", ServiceCategory.delete);
-    // Delete all Posts
-    staticRouter.delete("/", ServiceCategory.deleteAll);
-
-    app.use("/api/service-category", staticRouter);
-
-}
+  app.use("/api/service-category", ServiceCategoryRouter);
+};

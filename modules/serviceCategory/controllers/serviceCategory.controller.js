@@ -48,7 +48,6 @@ exports.findAll = (req, res) => {
         attributes: ["name"],
       },
     ],
-    
   })
     .then((data) => {
       successResponse(200, "OK", data, res);
@@ -151,5 +150,26 @@ exports.deleteAll = (req, res) => {
         message:
           err.message || "Some error occurred while deleting all activities",
       });
+    });
+};
+
+exports.findByRole = (req, res) => {
+  const roleId = req.params.roleId;
+  ServiceCategory.findAll({
+    where: {
+      role_id: roleId,
+    },
+    attributes: ["id", "name", "info", "role_id"],
+  })
+    .then((data) => {
+      successResponse(200, "OK", data, res);
+    })
+    .catch((err) => {
+      errorResponse(
+        500,
+        "ERROR",
+        err.message || "Some error occurred while finding the post",
+        res
+      );
     });
 };
