@@ -30,10 +30,11 @@ exports.signup = async (req, res) => {
           .substring(2, 10);
 
         const dataObj = {
-          role_id: userData.role_id ? userData.role_id : 4,
+          role_id: userData.role_id,
+          service_category_id: userData.service_category_id,
           registration_no: registrationNo,
-          f_name: userData.f_name,
-          l_name: userData.l_name,
+          f_name: userData.name,
+          username: userData.userName,
           mobile: userData.mobile,
           password: bcrypt.hashSync(userData.password, 8),
           email: userData.email,
@@ -66,5 +67,54 @@ exports.signup = async (req, res) => {
       err.message || "Some error occurred while creating the User.",
       res
     );
+  }
+};
+
+exports.confirmOTP = async (req, res) => {
+  const mobile = req.params.mobile;
+  console.log(mobile);
+  try {
+    const find = await User.findOne({
+      where: {
+        mobile: mobile,
+      },
+    });
+    if (find) {
+      const userUpdate = await User.update(
+        {
+          otp_verified: 1,
+        },
+
+        {
+          where: {
+            mobile: mobile,
+          },
+        }
+      );
+
+      if (userUpdate) {
+        return res.status(200).send({
+          message: "Confirmed Successfully",
+          data: userUpdate,
+        });
+      } else {
+        return res.status(400).send({
+          message: "Password Change Error !",
+          data: [],
+        });
+      }
+    } else {
+      return res.status(400).send({
+        status: "0",
+        message: "Password Does not Match !",
+        data: [],
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: "0",
+      message: error.message,
+      data: [],
+    });
   }
 };

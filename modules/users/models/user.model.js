@@ -1,6 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('user', {
+  const User = sequelize.define("user", {
     role_id: {
+      type: DataTypes.INTEGER,
+    },
+    service_category_id: {
       type: DataTypes.INTEGER,
     },
     registration_no: {
@@ -13,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     l_name: {
+      type: DataTypes.STRING,
+    },
+    username: {
       type: DataTypes.STRING,
     },
     date_of_birth: {
@@ -44,6 +50,9 @@ module.exports = (sequelize, DataTypes) => {
     user_otp: {
       type: DataTypes.INTEGER,
     },
+    otp_verified: {
+      type: DataTypes.INTEGER,
+    },
     contact_person: {
       type: DataTypes.STRING,
     },
@@ -71,16 +80,16 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
-      comment: '1 = Active, 0 = Inactive',
+      comment: "1 = Active, 0 = Inactive",
     },
     created_by: {
       type: DataTypes.INTEGER,
-      comment: 'User ID',
+      comment: "User ID",
       defaultValue: 0,
     },
     updated_by: {
       type: DataTypes.INTEGER,
-      comment: 'User ID',
+      comment: "User ID",
       defaultValue: 0,
     },
   });
