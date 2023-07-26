@@ -7,7 +7,7 @@ const User = db.model.user;
 
 exports.password = async (req, res) => {
   const userInfo = req.body;
-  console.log(userInfo);
+  // console.log(userInfo);
   try {
     const user = await User.findOne({
       where: {

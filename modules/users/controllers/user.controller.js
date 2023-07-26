@@ -177,7 +177,7 @@ exports.delete = async (req, res) => {
 exports.findAllByBirthdayRange = async (req, res) => {
   try {
     const dateRange = req.body;
-    console.log(dateRange);
+    // console.log(dateRange);
 
     const options = { month: "2-digit", day: "2-digit" };
     const startDate = new Date(dateRange.startDate);

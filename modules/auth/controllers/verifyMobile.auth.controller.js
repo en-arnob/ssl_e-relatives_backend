@@ -7,7 +7,7 @@ const User = db.model.user;
 exports.verifyMobileNumber = async (req, res) => {
   try {
     const mobileNumber = req.body;
-    console.log(mobileNumber.mobile);
+    // console.log(mobileNumber.mobile);
 
     if (!mobileNumber.mobile) {
       return errorResponse(400, 'FAILED', 'Field can not be empty!', res);

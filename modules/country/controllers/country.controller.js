@@ -25,7 +25,7 @@ exports.create = (req, res) => {
   // call model function for inserting data in database
   Country.create(data)
     .then((data) => {
-      console.log(data.toJSON());
+      // console.log(data.toJSON());
 
       successResponse(201, "OK", data, res);
     })
@@ -79,7 +79,7 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const id = req.params.id;
   const find = Country.findOne({ where: { id: id } });
   const data = {

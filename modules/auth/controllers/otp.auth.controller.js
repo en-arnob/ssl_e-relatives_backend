@@ -11,7 +11,7 @@ const User = db.model.user;
 exports.otpGenerate = async (req, res) => {
   try {
     const otp = Math.floor(100000 + Math.random() * 900000);
-    console.log(otp);
+    // console.log(otp);
 
     return res.status(200).send({
       status: '1',

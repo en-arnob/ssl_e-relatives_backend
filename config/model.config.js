@@ -410,6 +410,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       DataTypes
     );
+    
 
   // ===== Service category start ====//
   db.ServiceCategory =
@@ -428,7 +429,16 @@ module.exports = (sequelize, DataTypes) => {
       name: "role_id",
     },
   });
-  // ===== Service category end====//
+  // ===== Service Category End====//
+  
+  //==== Service Category List Start====//
+  db.serviceCategoryList =
+    require("../modules/serviceCategoryList/models/serviceCategoryList.model.js")(
+      sequelize,
+      DataTypes
+    );
+
+  //==== Service Category List End ====//
 
   return db;
 };

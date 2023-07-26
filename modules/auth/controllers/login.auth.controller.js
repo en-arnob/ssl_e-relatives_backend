@@ -12,7 +12,7 @@ const RolePermission = db.model.rolePermission;
 exports.signin = async (req, res) => {
   try {
     const userData = req.body;
-    console.log(userData);
+    // console.log(userData);
 
     if (!userData) {
       return errorResponse(400, 'FAILED', 'Content can not be empty!', res);

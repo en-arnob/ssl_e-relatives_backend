@@ -8,7 +8,7 @@ const successResponse = require("../../../utils/successResponse");
 
 exports.create = (req, res) => {
 
-    console.log(req.body);
+    // console.log(req.body);
     // Validate request data
     if(!req.body.name && !req.body.symbol)
     {
@@ -27,11 +27,11 @@ exports.create = (req, res) => {
       // updated_by: req.body.updated_by
     }
   
-    console.log(data);
+    // console.log(data);
     // call model function for inserting data in database
     UOM.create(data)
     .then((data) => {
-      console.log(data.toJSON());
+      // console.log(data.toJSON());
   
       successResponse(201, "OK", data, res);
     })
@@ -84,7 +84,7 @@ exports.findOne = (req, res) => {
 
   exports.update = (req, res) => {
   
-    console.log(req.body);
+    // console.log(req.body);
     const id = req.params.id;
     const find = UOM.findOne({ where: { id: id}});
     const data = {

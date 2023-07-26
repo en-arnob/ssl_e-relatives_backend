@@ -173,3 +173,32 @@ exports.findByRole = (req, res) => {
       );
     });
 };
+
+// exports.findByRole = (req, res) => {
+//   const roleId = req.params.roleId;
+//   ServiceCategory.findAll({
+//     where: {
+//       role_id: roleId,
+//     },
+//     include: [
+//       {
+//         model: Role, // Include the Role model
+//         attributes: ["name"], // Specify the attributes you want to fetch from the Role model
+//       },
+//     ],
+//   })
+//     .then((data) => {
+//       res.status(200).json({
+//         status: "success",
+//         message: "Data found",
+//         data: data,
+//       });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({
+//         status: "error",
+//         message: "Some error occurred while finding the data",
+//         error: err.message,
+//       });
+//     });
+// };

@@ -9,7 +9,7 @@ const successResponse = require("../../../utils/successResponse");
 // Create and Save a new content group
 exports.create = (req, res) => {
   
-  console.log(req.body);
+  // console.log(req.body);
 
   // Validate request data
   if(!req.body.name && !req.body.info)
@@ -85,7 +85,7 @@ exports.findOne = (req, res) => {
 // Update a content by the id in the request
 exports.update = (req, res) => {
   
-  console.log(req.body);
+  // console.log(req.body);
   const id = req.params.id;
   const find = StaticContentGroup.findOne({ where: { id: id}});
 

@@ -8,7 +8,7 @@ const TransectionType = db.model.transectionType;
 exports.create = async (req, res) => {
   try {
     const transectionTypeData = req.body;
-    console.log(transectionTypeData);
+    // console.log(transectionTypeData);
 
     if (!transectionTypeData) {
       errorResponse(400, 'FAILED', 'Content can not be empty!', res);
@@ -53,7 +53,7 @@ exports.findAll = async (req, res) => {
 exports.findOne = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
 
     const data = await TransectionType.findByPk(id);
 
