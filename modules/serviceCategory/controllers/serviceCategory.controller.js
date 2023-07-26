@@ -17,7 +17,7 @@ exports.create = (req, res) => {
   const data = {
     name: req.body.name,
     info: req.body.info,
-    role_id: req.body.groupId,
+    role_id: req.body.roleID,
     status: parseInt(req.body.status),
 
     // created_by: req.body.created_by,
@@ -98,7 +98,7 @@ exports.update = (req, res) => {
     name: req.body.name,
     info: req.body.info,
     status: parseInt(req.body.status),
-    static_content_group_id: req.body.groupId,
+    role_id: req.body.roleID,
   };
 
   if (find) {
