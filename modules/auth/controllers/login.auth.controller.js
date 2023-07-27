@@ -29,7 +29,7 @@ exports.signin = async (req, res) => {
       if (!userQuery) {
         return res.status(404).send({
           status: "0",
-          message: "Mobile Number or Password is Invalid",
+          message: "User Mobile Number or Password is Invalid",
           data: [],
         });
       } else {
