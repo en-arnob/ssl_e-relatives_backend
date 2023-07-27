@@ -28,4 +28,6 @@ module.exports = function (app) {
     "/api/user/verify-otp-put/:mobile/:otp",
     registrationController.confirmOTP
   );
+  // send otp to password reset
+  app.get("/api/user/verify-send-otp/:mobile", otpVerifyController.otpSend);
 };
