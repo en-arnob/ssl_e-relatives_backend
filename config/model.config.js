@@ -410,7 +410,6 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       DataTypes
     );
-    
 
   // ===== Service category start ====//
   db.ServiceCategory =
@@ -430,13 +429,35 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   // ===== Service Category End====//
-  
+
   //==== Service Category List Start====//
   db.serviceCategoryList =
     require("../modules/serviceCategoryList/models/serviceCategoryList.model.js")(
       sequelize,
       DataTypes
     );
+  db.role.hasMany(db.serviceCategoryList, {
+    foreignKey: {
+      name: "role_id",
+    },
+  });
+  db.serviceCategoryList.belongsTo(db.role, {
+    foreignKey: { name: "role_id" },
+  });
+
+  
+
+  db.ServiceCategory.hasMany(db.serviceCategoryList, {
+    foreignKey: {
+      name: "service_category_id",
+    },
+  });
+
+  db.serviceCategoryList.belongsTo(db.ServiceCategory, {
+    foreignKey: {
+      name: "service_category_id",
+    },
+  });
 
   //==== Service Category List End ====//
 

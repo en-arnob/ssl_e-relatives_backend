@@ -1,17 +1,18 @@
 module.exports = (app) => {
     const ServiceCategoryListRouter = require("express").Router();
     const ServiceCategoryList = require("../controllers/serviceCategoryList.controller");
-  
+  console.log(ServiceCategoryList)
     //create a post
     ServiceCategoryListRouter.post("/", ServiceCategoryList.create);
     // Retrieve all Posts
-    // ServiceCategoryListRouter.get("/", ServiceCategoryList.findAll);
+    ServiceCategoryListRouter.get("/", ServiceCategoryList.findAll);
+    
     // Retrieve a single Post with id
     // ServiceCategoryListRouter.get("/:id", ServiceCategoryList.findOne);
     // Update a Post with id
-    // ServiceCategoryListRouter.put("/:id", ServiceCategoryList.update);
+    ServiceCategoryListRouter.put("/:id", ServiceCategoryList.update);
     // Delete a Post with id
-    // ServiceCategoryListRouter.delete("/:id", ServiceCategoryList.delete);
+    ServiceCategoryListRouter.delete("/:id", ServiceCategoryList.delete);
     // Delete all Posts
     // ServiceCategoryListRouter.delete("/", ServiceCategoryList.deleteAll);
   
