@@ -25,7 +25,7 @@ module.exports = function (app) {
 
   // verify otp for reg completion
   app.put(
-    "/api/user/verify-otp-put/:mobile",
+    "/api/user/verify-otp-put/:mobile/:otp",
     registrationController.confirmOTP
   );
 };
