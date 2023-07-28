@@ -8,7 +8,7 @@ const Role = db.model.role;
 exports.create = async (req, res) => {
   try {
     const roleData = req.body;
-    console.log(roleData);
+    // console.log(roleData);
 
     if (!roleData) {
       errorResponse(400, "FAILED", "Content can not be empty!", res);

@@ -8,7 +8,7 @@ const HeadIdentifier = db.model.headIdentifier;
 exports.create = async (req, res) => {
   try {
     const headIdentifierData = req.body;
-    console.log(headIdentifierData);
+    // console.log(headIdentifierData);
 
     if (!headIdentifierData) {
       errorResponse(400, 'FAILED', 'Content can not be empty!', res);

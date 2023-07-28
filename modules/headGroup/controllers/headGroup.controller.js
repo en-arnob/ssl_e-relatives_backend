@@ -9,7 +9,7 @@ const HeadGroup = db.model.headGroup;
 exports.create = async (req, res) => {
   try {
     const headGroupData = req.body;
-    console.log(headGroupData);
+    // console.log(headGroupData);
 
     if (!headGroupData) {
       errorResponse(400, 'FAILED', 'Content can not be empty!', res);

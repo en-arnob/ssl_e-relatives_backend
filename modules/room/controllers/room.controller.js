@@ -27,7 +27,7 @@ exports.create = (req, res) => {
   // call model function for inserting data in database
   Room.create(data)
     .then((data) => {
-      console.log(data.toJSON());
+      // console.log(data.toJSON());
 
       successResponse(201, "OK", data, res);
     })

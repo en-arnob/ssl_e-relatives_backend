@@ -8,7 +8,7 @@ const DrugGroup = db.model.drugGroup;
 exports.create = async (req, res) => {
   try {
     const drugGroupData = req.body;
-    console.log(drugGroupData);
+    // console.log(drugGroupData);
 
     if (!drugGroupData) {
       errorResponse(400, 'FAILED', 'Content can not be empty!', res);
@@ -53,7 +53,7 @@ exports.findAll = async (req, res) => {
 exports.findOne = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
 
     const data = await DrugGroup.findByPk(id);
 

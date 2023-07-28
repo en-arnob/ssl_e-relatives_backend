@@ -37,7 +37,7 @@ exports.create = (req, res) => {
   .catch((err) => {
     errorResponse(500, "ERROR", err.message || "Failed to Register, Please try Again!", res);
   });
-  console.log(req.body);
+  // console.log(req.body);
 
 };
 
@@ -176,7 +176,7 @@ exports.findOne = (req, res) => {
 // Update a Post by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  console.log(req.body);
+  // console.log(req.body);
   // Get the module instance
   Module.findByPk(id)
     .then((moduleId) => {

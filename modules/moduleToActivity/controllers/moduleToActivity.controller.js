@@ -8,7 +8,7 @@ const successResponse = require("../../../utils/successResponse");
 
 // Create and Save a new Post
 exports.create = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   // Validate request data
   // if(!req.body.activity_id && !req.body.module_id)
@@ -83,7 +83,7 @@ exports.findOne = (req, res) => {
 
 // Update a Post by the id in the request
 exports.update = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const id = req.params.id;
   const find = ModuleToActivity.findOne({ where: { id: id } });
 

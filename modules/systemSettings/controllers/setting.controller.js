@@ -98,7 +98,7 @@ exports.upload = (req, res) => {
     let logoUrl = files[0].filename;
     let favUrl = files[1].filename;
     let data = {};
-    console.log(favUrl);
+    // console.log(favUrl);
     SystemSetting.findAll()
       .then((data) => {
         data = data;

@@ -42,7 +42,7 @@ exports.saveData = async (req, res) => {
 exports.getData = (req, res) => {
   RolePermission.findAll()
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       successResponse(200, "OK", data, res);
     })
     .catch((err) => {
