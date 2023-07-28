@@ -1,4 +1,5 @@
 const errorResponse = require("../../../utils/errorResponse");
+const axios = require("axios");
 const successResponse = require("../../../utils/successResponse");
 var bcrypt = require("bcryptjs");
 
@@ -29,10 +30,13 @@ exports.signup = async (req, res) => {
           .toString()
           .substring(2, 10);
 
+        const initialOTP = Math.floor(100000 + Math.random() * 900000);
+
         const dataObj = {
           role_id: userData.role_id,
           service_category_id: userData.service_category_id,
           registration_no: registrationNo,
+          user_otp: initialOTP,
           f_name: userData.name,
           username: userData.userName,
           mobile: userData.mobile,
@@ -55,8 +59,19 @@ exports.signup = async (req, res) => {
 
         const data = await User.create(dataObj);
         // console.log(data);
+        const message = `Dear ${data.f_name}, Please confirm Your OTP: ${initialOTP} in the browser to continue registration.`;
 
-        return successResponse(201, "OK", data, res);
+        const sms = await axios.post(
+          `https://api.greenweb.com.bd/api.php?token=97351551401689673900003da986f5a5f7647b72309c70b65dae&to=${data.mobile}&message=${message}`
+        );
+        const dataForClient = {
+          mobile: data.mobile,
+          name: data.f_name,
+        };
+
+        if (sms.status === 200) {
+          return successResponse(201, "OK", dataForClient, res);
+        }
       }
     }
     // successResponse(201, 'OK', data, res);
@@ -72,14 +87,20 @@ exports.signup = async (req, res) => {
 
 exports.confirmOTP = async (req, res) => {
   const mobile = req.params.mobile;
-  console.log(mobile);
+  const otp = req.params.otp;
   try {
     const find = await User.findOne({
       where: {
         mobile: mobile,
+        user_otp: otp,
       },
     });
-    if (find) {
+    if (!find) {
+      return res.status(400).send({
+        message: "OTP not matched !",
+        data: [],
+      });
+    } else {
       const userUpdate = await User.update(
         {
           otp_verified: 1,
@@ -91,7 +112,6 @@ exports.confirmOTP = async (req, res) => {
           },
         }
       );
-
       if (userUpdate) {
         return res.status(200).send({
           message: "Confirmed Successfully",
@@ -103,16 +123,9 @@ exports.confirmOTP = async (req, res) => {
           data: [],
         });
       }
-    } else {
-      return res.status(400).send({
-        status: "0",
-        message: "Password Does not Match !",
-        data: [],
-      });
     }
   } catch (error) {
     res.status(500).send({
-      status: "0",
       message: error.message,
       data: [],
     });

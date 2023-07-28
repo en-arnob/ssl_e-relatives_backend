@@ -1,9 +1,9 @@
-require('dotenv').config();
-const db = require('../../../config/database.config');
-const errorResponse = require('../../../utils/errorResponse');
-const successResponse = require('../../../utils/successResponse');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
+require("dotenv").config();
+const db = require("../../../config/database.config");
+const errorResponse = require("../../../utils/errorResponse");
+const successResponse = require("../../../utils/successResponse");
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcryptjs");
 
 const User = db.model.user;
 const Role = db.model.role;
@@ -15,24 +15,26 @@ exports.signin = async (req, res) => {
     // console.log(userData);
 
     if (!userData) {
-      return errorResponse(400, 'FAILED', 'Content can not be empty!', res);
+      return errorResponse(400, "FAILED", "Content can not be empty!", res);
     } else {
       const userQuery = await User.findOne({
-        where: { mobile: userData.mobile },
+        where: { mobile: userData.mobile, otp_verified: 1 },
         include: [
           {
             model: Role,
-            attributes: ['name', 'info'],
+            attributes: ["name", "info"],
           },
         ],
       });
       if (!userQuery) {
         return res.status(404).send({
-          status: '0',
-          message: 'User Mobile Number or Password is Invalid',
+          status: "0",
+          message: "User Mobile Number or Password is Invalid",
           data: [],
         });
       } else {
+        // console.log(userQuery.otp_verified);
+
         var passwordIsValid = bcrypt.compareSync(
           userData.password,
           userQuery.password
@@ -41,7 +43,7 @@ exports.signin = async (req, res) => {
         if (!passwordIsValid) {
           return res.status(401).send({
             accessToken: null,
-            message: 'User Mobile Number or Password is Invalid',
+            message: "User Mobile Number or Password is Invalid",
           });
         }
 
@@ -49,7 +51,7 @@ exports.signin = async (req, res) => {
           where: {
             role_id: userQuery.role_id,
           },
-          attributes: ['module_id', 'activity_id'],
+          attributes: ["module_id", "activity_id"],
         });
 
         if (rolePermissionsQuery) {
@@ -63,8 +65,8 @@ exports.signin = async (req, res) => {
           });
 
           res.status(200).send({
-            status: '1',
-            message: 'You are Successfully Logged in',
+            status: "1",
+            message: "You are Successfully Logged in",
             token: token,
             data: userQueryData,
           });
@@ -74,8 +76,8 @@ exports.signin = async (req, res) => {
   } catch (err) {
     errorResponse(
       500,
-      'ERROR',
-      err.message || 'Some error occurred while creating the User.',
+      "ERROR",
+      err.message || "Some error occurred while creating the User.",
       res
     );
   }
