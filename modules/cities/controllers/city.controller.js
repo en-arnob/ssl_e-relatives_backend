@@ -66,6 +66,22 @@ exports.getStateId = (req, res) => {
     });
 };
 
+exports.getCitiesById = (req, res) => {
+  const id = req.params.id;
+  City.findAll({ where: { state_id: id } }, { attributes: ["name", "id"] })
+    .then((data) => {
+      successResponse(200, "OK", data, res);
+    })
+    .catch((err) => {
+      errorResponse(
+        500,
+        "ERROR",
+        err.message || "Some error occurred while finding the States",
+        res
+      );
+    });
+};
+
 exports.getAll = (req, res) => {
   City.findAll({
     include: [
@@ -75,9 +91,9 @@ exports.getAll = (req, res) => {
         include: [
           {
             model: Country,
-            attributes: ["name", "id"]
-          }
-        ]
+            attributes: ["name", "id"],
+          },
+        ],
       },
     ],
   })

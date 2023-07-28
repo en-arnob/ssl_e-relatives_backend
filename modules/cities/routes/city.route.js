@@ -16,9 +16,11 @@ module.exports = (app) => {
   // StateRouter.delete("/", CityController.deleteAll);
 
   // Get Country Name and Id
-  CityRouter.get("/country/data", CityController.getCountryId)
+  CityRouter.get("/country/data", CityController.getCountryId);
   // Get State Name and Id
-  CityRouter.get("/state/data/:id", CityController.getStateId)
+  CityRouter.get("/state/data/:id", CityController.getStateId);
+  // Get City Name and Id by state id
+  CityRouter.get("/data/:id", CityController.getCitiesById);
 
   app.use("/api/city", CityRouter);
 };

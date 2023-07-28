@@ -182,7 +182,7 @@ exports.delete = async (req, res) => {
         },
       });
 
-      res.send({ data: result, message: 'Drug deleted Successfully!' });
+      res.send({ data: result, message: "Drug deleted Successfully!" });
     } else {
       res.send({
         message: `Cannot delete User with id=${id}. Maybe User was not found!`,
@@ -191,8 +191,32 @@ exports.delete = async (req, res) => {
   } catch (err) {
     errorHandler(
       500,
-      'ERROR',
-      err.message || 'Some error occurred while creating the User.',
+      "ERROR",
+      err.message || "Some error occurred while creating the User.",
+      res
+    );
+  }
+};
+
+exports.getServiceListByCat = async (req, res) => {
+  const catId = req.params.id;
+  try {
+    const data = await ServiceCategoryList.findAll({
+      where: {
+        service_category_id: catId,
+      },
+    });
+
+    if (data.length > 0) {
+      successResponse(200, "OK", data, res);
+    } else {
+      res.send({ message: "No User Found!" });
+    }
+  } catch (err) {
+    errorHandler(
+      500,
+      "ERROR",
+      err.message || "Some error occurred while creating the User.",
       res
     );
   }
