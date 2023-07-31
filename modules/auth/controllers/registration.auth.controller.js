@@ -5,6 +5,7 @@ var bcrypt = require("bcryptjs");
 
 const db = require("../../../config/database.config");
 const User = db.model.user;
+const UserDetails = db.model.UserDetails;
 
 exports.signup = async (req, res) => {
   try {
@@ -58,6 +59,9 @@ exports.signup = async (req, res) => {
         // res.send(dataObj)
 
         const data = await User.create(dataObj);
+        const details = await UserDetails.create({
+          user_id: data.id,
+        });
         // console.log(data);
         const message = `Dear ${data.f_name}, Please confirm Your OTP: ${initialOTP} in the browser to continue registration.`;
 

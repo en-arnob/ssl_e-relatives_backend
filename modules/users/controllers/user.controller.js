@@ -5,6 +5,7 @@ var bcrypt = require("bcryptjs");
 
 const Op = db.Sequelize.Op;
 const User = db.model.user;
+const UserDetails = db.model.UserDetails;
 const Role = db.model.role;
 const RolePermission = db.model.rolePermission;
 
@@ -237,6 +238,87 @@ exports.uploadImage = async (req, res) => {
     res.send(imageFiles);
   } catch (err) {
     errorHandler(
+      500,
+      "ERROR",
+      err.message ||
+        "Some error occurred while Finding Users By Date_of_Birth.",
+      res
+    );
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    // res.json({ msg: "URL" });
+    const userId = req.params.id;
+    const userData = req.body;
+
+    const query = await UserDetails.findOne({
+      where: {
+        user_id: userId,
+      },
+    });
+    if (query) {
+      const update = {
+        gender_id: userData.gender,
+        country_id: userData.country,
+        state_id: userData.state,
+        city_id: userData.city,
+        blood_group: userData.bloodGroup,
+        owner_name: userData.ownerName,
+        institution_name: userData.institutionName,
+        responsible_person_name: userData.responsiblePName,
+        designation: userData.designation,
+        vehicle_license: userData.vehicleLicense,
+        trade_license: userData.tradeLicense,
+        bmdc_license: userData.bmdcLicense,
+        dghs_license: userData.dghsLicense,
+        drug_license: userData.drugLicense,
+        online_service_time: userData.onlineServiceTime,
+        available_service: userData.availableService,
+        delivery_person_name: userData.deliveryPName,
+        driver_name: userData.driverName,
+        driving_license: userData.drivingLicense,
+        specialization_degree: userData.specializationDegree,
+        driving_exp_years: userData.drivingExpYears,
+      };
+      if (userData.image) {
+        update.image = userData.image;
+      }
+      const data = await UserDetails.update(update, {
+        where: {
+          user_id: userId,
+        },
+      });
+      const user = await User.findByPk(userId);
+      if (user) {
+        const restofthefieldsUpdate = await User.update(
+          {
+            date_of_birth: userData.dob,
+            address_1: userData.address,
+            nid: userData.nid,
+            image: userData.image,
+            user_details_added: 1,
+          },
+          {
+            where: {
+              id: userId,
+            },
+          }
+        );
+        res.status(200).send({
+          status: "success",
+          message: "User updated successfully",
+          data: data,
+        });
+      }
+    } else {
+      res.status(404).send({
+        message: `Cannot find User with id=${userId}.`,
+      });
+    }
+  } catch (err) {
+    errorResponse(
       500,
       "ERROR",
       err.message ||

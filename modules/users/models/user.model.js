@@ -53,6 +53,9 @@ module.exports = (sequelize, DataTypes) => {
     otp_verified: {
       type: DataTypes.INTEGER,
     },
+    user_details_added: {
+      type: DataTypes.INTEGER,
+    },
     contact_person: {
       type: DataTypes.STRING,
     },
