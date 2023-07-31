@@ -445,8 +445,6 @@ module.exports = (sequelize, DataTypes) => {
     foreignKey: { name: "role_id" },
   });
 
-  
-
   db.ServiceCategory.hasMany(db.serviceCategoryList, {
     foreignKey: {
       name: "service_category_id",
@@ -460,6 +458,11 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   //==== Service Category List End ====//
+
+  db.UserDetails = require("../modules/users/models/userDetails.model.js")(
+    sequelize,
+    DataTypes
+  );
 
   return db;
 };
