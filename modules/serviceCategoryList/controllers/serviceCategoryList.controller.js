@@ -8,10 +8,10 @@ const ServiceCategory = db.model.ServiceCategory;
 
 exports.create = async (req, res) => {
   try {
-    const drugData = req.body;
+    const serviceData = req.body;
     console.log(req.body.name);
 
-    if (!drugData) {
+    if (!serviceData) {
       errorResponse(400, "FAILED", "Content can not be empty!", res);
     } else {
       const dataObj = {
@@ -130,8 +130,8 @@ exports.findAll = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const id = req.params.id;
-    const drugData = req.body;
-    console.log(drugData);
+    const serviceData = req.body;
+    console.log(serviceData);
     console.log(req.body.name);
 
     const query = await ServiceCategoryList.findByPk(id);
@@ -152,12 +152,12 @@ exports.update = async (req, res) => {
       });
       res.status(200).send({
         status: "success",
-        message: "Drug updated successfully",
+        message: "Updated successfully",
         data: data,
       });
     } else {
       res.status(404).send({
-        message: `Cannot find Drug with id=${req.params.id}.`,
+        message: `Cannot find with id=${req.params.id}.`,
       });
     }
   } catch (err) {
@@ -182,7 +182,7 @@ exports.delete = async (req, res) => {
         },
       });
 
-      res.send({ data: result, message: "Drug deleted Successfully!" });
+      res.send({ data: result, message: "Deleted Successfully!" });
     } else {
       res.send({
         message: `Cannot delete User with id=${id}. Maybe User was not found!`,
