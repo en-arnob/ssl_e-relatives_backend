@@ -24,6 +24,7 @@ exports.create = async (req, res) => {
 
       const data = await ServiceCategoryList.create(dataObj);
       successResponse(201, "OK", data, res);
+      //
     }
   } catch (err) {
     errorResponse(
