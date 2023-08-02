@@ -8,6 +8,9 @@ const User = db.model.user;
 const UserDetails = db.model.UserDetails;
 const Role = db.model.role;
 const RolePermission = db.model.rolePermission;
+const Country = db.model.country;
+const State = db.model.state;
+const City = db.model.city;
 
 exports.findAll = async (req, res) => {
   try {
@@ -323,6 +326,51 @@ exports.updateUser = async (req, res) => {
       "ERROR",
       err.message ||
         "Some error occurred while Finding Users By Date_of_Birth.",
+      res
+    );
+  }
+};
+
+exports.getDetails = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const userQuery = await UserDetails.findOne({
+      where: {
+        user_id: id,
+      },
+      include: [
+        {
+          model: Country,
+          // attributes: ["name", "info"],
+        },
+        {
+          model: State,
+          // attributes: ["name", "info"],
+        },
+        {
+          model: City,
+          // attributes: ["name", "info"],
+        },
+      ],
+    });
+
+    if (userQuery) {
+      res.status(200).send({
+        status: "1",
+        message: `Found User with id=${id} Successfully!!`,
+        data: userQuery,
+      });
+    } else {
+      res.status(404).send({
+        message: `Cannot find User with id=${id}.`,
+      });
+    }
+  } catch (err) {
+    errorResponse(
+      500,
+      "ERROR",
+      err.message || "Some error occurred while Finding User",
       res
     );
   }
