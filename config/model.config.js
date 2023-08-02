@@ -464,5 +464,51 @@ module.exports = (sequelize, DataTypes) => {
     DataTypes
   );
 
+  // ===== Start UserDetails & Country Relationship ===== //
+
+  db.country.hasMany(db.UserDetails, {
+    foreignKey: {
+      name: "country_id",
+    },
+  });
+
+  db.UserDetails.belongsTo(db.country, {
+    foreignKey: {
+      name: "country_id",
+    },
+  });
+
+  // ===== End  UserDetails & Country  ===== //
+  // ===== Start UserDetails & State Relationship ===== //
+
+  db.state.hasMany(db.UserDetails, {
+    foreignKey: {
+      name: "state_id",
+    },
+  });
+
+  db.UserDetails.belongsTo(db.state, {
+    foreignKey: {
+      name: "state_id",
+    },
+  });
+
+  // ===== End  UserDetails & State ===== //
+  // ===== Start UserDetails & City Relationship ===== //
+
+  db.city.hasMany(db.UserDetails, {
+    foreignKey: {
+      name: "city_id",
+    },
+  });
+
+  db.UserDetails.belongsTo(db.city, {
+    foreignKey: {
+      name: "city_id",
+    },
+  });
+
+  // ===== End  UserDetails & City ===== //
+
   return db;
 };

@@ -21,6 +21,7 @@ module.exports = (app) => {
 
   // e-rel new methods
   userRouter.post("/user/details/update/:id", userController.updateUser);
+  userRouter.get("/details/user/:id", userController.getDetails);
 
   app.use("/api/users", userRouter);
 };
