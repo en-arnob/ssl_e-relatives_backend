@@ -283,6 +283,7 @@ exports.updateUser = async (req, res) => {
         driver_name: userData.driverName,
         driving_license: userData.drivingLicense,
         specialization_degree: userData.specializationDegree,
+        last_blood_donate: userData.lastBloodDonate,
         driving_exp_years: userData.drivingExpYears,
       };
       if (userData.image) {

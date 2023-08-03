@@ -10,6 +10,8 @@ module.exports = (app) => {
 
   // Roles for new reg from forntend by priority
   roleRouter.get("/:priority", roleController.findByPriority);
+  // get roles for  priority 5 & 6
+  roleRouter.get("/priority", roleController.findByPriorityFiveSix);
 
   app.use("/api/roles", roleRouter);
 };

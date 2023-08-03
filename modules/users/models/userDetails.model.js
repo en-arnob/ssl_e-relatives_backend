@@ -73,6 +73,9 @@ module.exports = (sequelize, DataTypes) => {
     driving_license: {
       type: DataTypes.STRING,
     },
+    last_blood_donate: {
+      type: DataTypes.DATEONLY,
+    },
     specialization_degree: {
       type: DataTypes.STRING,
     },
