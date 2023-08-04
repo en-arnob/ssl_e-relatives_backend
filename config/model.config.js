@@ -510,5 +510,26 @@ module.exports = (sequelize, DataTypes) => {
 
   // ===== End  UserDetails & City ===== //
 
+  // ===== Start UserDetails & User Relationship ===== //
+
+  db.user.hasOne(db.UserDetails, {
+    foreignKey: {
+      name: "user_id",
+    },
+  });
+  db.UserDetails.belongsTo(db.user, {
+    foreignKey: {
+      name: "user_id",
+    },
+  });
+
+  // ===== End UserDetails & City Relationship ===== //
+
+  db.bloodReq =
+    require("../modules/serviceRequests/bloodReq/models/bloodReq.model.js")(
+      sequelize,
+      DataTypes
+    );
+
   return db;
 };

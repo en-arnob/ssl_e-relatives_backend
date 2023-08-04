@@ -55,5 +55,8 @@ module.exports = (app) => {
   require("../modules/testManagement/routes/testManagement.route.js")(app);
   require("../modules/termsConditions/routes/termsConditions.route.js")(app);
   require("../modules/serviceCategory/routes/serviceCategory.route.js")(app);
-  require("../modules/serviceCategoryList/routes/serviceCategoryList.route.js")(app);
+  require("../modules/serviceCategoryList/routes/serviceCategoryList.route.js")(
+    app
+  );
+  require("../modules/serviceRequests/bloodReq/routes/bloodReq.route.js")(app);
 };
