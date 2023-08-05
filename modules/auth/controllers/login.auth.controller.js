@@ -18,7 +18,8 @@ exports.signin = async (req, res) => {
       return errorResponse(400, "FAILED", "Content can not be empty!", res);
     } else {
       const userQuery = await User.findOne({
-        where: { mobile: userData.mobile, otp_verified: 1 },
+        // where: { mobile: userData.mobile, otp_verified: 1 },
+        where: { mobile: userData.mobile },
         include: [
           {
             model: Role,

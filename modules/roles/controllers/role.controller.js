@@ -177,3 +177,25 @@ exports.findByPriority = async (req, res) => {
     );
   }
 };
+
+exports.findByPriorityFiveSix = async (req, res) => {
+  try {
+    const query = await Role.findAll({
+      where: {
+        priority: 5 || 6,
+      },
+    });
+    if (query.length > 0) {
+      successResponse(200, "OK", query, res);
+    } else {
+      res.send({ message: "No Role Found!" });
+    }
+  } catch (err) {
+    errorResponse(
+      500,
+      "ERROR",
+      err.message || "Some error occurred while finding Users Role.",
+      res
+    );
+  }
+};
