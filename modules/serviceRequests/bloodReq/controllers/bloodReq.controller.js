@@ -35,16 +35,6 @@ exports.create = async (req, res) => {
     // const threeMonthsAgo = dateOnly;
     // threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
-    for (let i = 0; i < bloodReqData.bags; i++) {
-      await BloodRequest.create({
-        user_id: bloodReqData.userId,
-        req_no: bloodReqNo,
-        req_blood_group: bloodReqData.bg,
-        date_time: bloodReqData.dateTime,
-        collection_point: bloodReqData.collectionPoint,
-      });
-    }
-
     // res.json({ msg: "Ok created" });
     // get collectionPoint Data
     let colPoint = await User.findOne({
@@ -121,20 +111,42 @@ exports.create = async (req, res) => {
         },
       ],
     });
+    const numOfMatchedDonors = matchedDonors.length;
+
+    for (let i = 0; i < bloodReqData.bags; i++) {
+      const donor = matchedDonors[i] || null;
+
+      await BloodRequest.create({
+        user_id: bloodReqData.userId,
+        req_no: bloodReqNo,
+        req_blood_group: bloodReqData.bg,
+        date_time: bloodReqData.dateTime,
+        collection_point: bloodReqData.collectionPoint,
+        reached_donor: donor ? donor.user_id : null,
+      });
+    }
     const message = `Dear Blood Donor, ${bloodReqData.bg} needed in collection point: ${colPoint?.address_1}`;
     if (matchedDonors) {
-      await matchedDonors.forEach((donor) => {
-        console.log(donor);
-        axios
-          .post(
-            `https://api.greenweb.com.bd/api.php?token=97351551401689673900003da986f5a5f7647b72309c70b65dae&to=${donor.user.mobile}&message=${message}`
-          )
-          .then(() => {
-            console.log(`Sent to ${donor.mobile}`);
-          })
-          .catch((error) => {
-            console.log("error");
-          });
+      const matchedDonorIds = matchedDonors.map((donor) => donor.user_id);
+      const addedDonorIds = matchedDonorIds.slice(0, bloodReqData.bags);
+
+      await addedDonorIds.forEach((donorId) => {
+        // console.log(donor);
+        const matchedDonor = matchedDonors.find(
+          (donor) => donor.user_id === donorId
+        );
+        if (matchedDonor) {
+          axios
+            .post(
+              `https://api.greenweb.com.bd/api.php?token=97351551401689673900003da986f5a5f7647b72309c70b65dae&to=${matchedDonor.user.mobile}&message=${message}`
+            )
+            .then(() => {
+              console.log(`Sent to ${matchedDonor.mobile}`);
+            })
+            .catch((error) => {
+              console.log("error");
+            });
+        }
       });
 
       return res.json({
