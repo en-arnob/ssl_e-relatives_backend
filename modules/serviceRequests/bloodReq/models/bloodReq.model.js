@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    reached_donor: {
+    accepted_donor: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },

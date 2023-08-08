@@ -532,15 +532,15 @@ module.exports = (sequelize, DataTypes) => {
     );
   // ===== Start BloodRequest & User Relationship ===== //
   db.user.hasMany(db.bloodReq, {
-    as: "assigned_donor",
+    as: "donor",
     foreignKey: {
-      name: "reached_donor",
+      name: "accepted_donor",
     },
   });
   db.bloodReq.belongsTo(db.user, {
-    as: "assigned_donor",
+    as: "donor",
     foreignKey: {
-      name: "reached_donor",
+      name: "accepted_donor",
     },
   });
 
