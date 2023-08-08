@@ -560,6 +560,21 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   // ===== End BloodRequest & CollectionPoint Relationship ===== //
+  // ===== Start BloodRequest & RequestUser Relationship ===== //
+  db.user.hasMany(db.bloodReq, {
+    as: "req_by",
+    foreignKey: {
+      name: "user_id",
+    },
+  });
+  db.bloodReq.belongsTo(db.user, {
+    as: "req_by",
+    foreignKey: {
+      name: "user_id",
+    },
+  });
+
+  // ===== End BloodRequest & RequestUser Relationship ===== //
 
   return db;
 };

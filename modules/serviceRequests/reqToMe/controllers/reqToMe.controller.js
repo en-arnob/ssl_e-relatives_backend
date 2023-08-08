@@ -20,6 +20,11 @@ exports.getAll = async (req, res) => {
       include: [
         {
           model: User,
+          as: "req_by",
+          attributes: ["id", "f_name", "mobile", "email", "image"],
+        },
+        {
+          model: User,
           as: "assigned_donor",
           attributes: ["id", "f_name", "mobile", "email", "image"],
         },
