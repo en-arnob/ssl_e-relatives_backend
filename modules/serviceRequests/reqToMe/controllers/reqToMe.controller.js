@@ -11,7 +11,6 @@ const successResponse = require("../../../../utils/successResponse");
 exports.getAll = async (req, res) => {
   const { userId } = req.params;
   //   return res.json({ msg: "Route Ok.", userId });
-
   try {
     const myReqs = await BloodRequest.findAll({
       where: {
