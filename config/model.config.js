@@ -530,6 +530,51 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       DataTypes
     );
+  // ===== Start BloodRequest & User Relationship ===== //
+  db.user.hasMany(db.bloodReq, {
+    as: "donor",
+    foreignKey: {
+      name: "accepted_donor",
+    },
+  });
+  db.bloodReq.belongsTo(db.user, {
+    as: "donor",
+    foreignKey: {
+      name: "accepted_donor",
+    },
+  });
+
+  // ===== End BloodRequest & User Relationship ===== //
+  // ===== Start BloodRequest & CollectionPoint Relationship ===== //
+  db.user.hasMany(db.bloodReq, {
+    as: "col_point",
+    foreignKey: {
+      name: "collection_point",
+    },
+  });
+  db.bloodReq.belongsTo(db.user, {
+    as: "col_point",
+    foreignKey: {
+      name: "collection_point",
+    },
+  });
+
+  // ===== End BloodRequest & CollectionPoint Relationship ===== //
+  // ===== Start BloodRequest & RequestUser Relationship ===== //
+  db.user.hasMany(db.bloodReq, {
+    as: "req_by",
+    foreignKey: {
+      name: "user_id",
+    },
+  });
+  db.bloodReq.belongsTo(db.user, {
+    as: "req_by",
+    foreignKey: {
+      name: "user_id",
+    },
+  });
+
+  // ===== End BloodRequest & RequestUser Relationship ===== //
 
   return db;
 };

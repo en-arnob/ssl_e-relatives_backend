@@ -35,16 +35,6 @@ exports.create = async (req, res) => {
     // const threeMonthsAgo = dateOnly;
     // threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
-    for (let i = 0; i < bloodReqData.bags; i++) {
-      await BloodRequest.create({
-        user_id: bloodReqData.userId,
-        req_no: bloodReqNo,
-        req_blood_group: bloodReqData.bg,
-        date_time: bloodReqData.dateTime,
-        collection_point: bloodReqData.collectionPoint,
-      });
-    }
-
     // res.json({ msg: "Ok created" });
     // get collectionPoint Data
     let colPoint = await User.findOne({
@@ -121,10 +111,20 @@ exports.create = async (req, res) => {
         },
       ],
     });
+
+    for (let i = 0; i < bloodReqData.bags; i++) {
+      await BloodRequest.create({
+        user_id: bloodReqData.userId,
+        req_no: bloodReqNo,
+        req_blood_group: bloodReqData.bg,
+        date_time: bloodReqData.dateTime,
+        collection_point: bloodReqData.collectionPoint,
+      });
+    }
     const message = `Dear Blood Donor, ${bloodReqData.bg} needed in collection point: ${colPoint?.address_1}`;
     if (matchedDonors) {
       await matchedDonors.forEach((donor) => {
-        console.log(donor);
+        // console.log(donor);
         axios
           .post(
             `https://api.greenweb.com.bd/api.php?token=97351551401689673900003da986f5a5f7647b72309c70b65dae&to=${donor.user.mobile}&message=${message}`
