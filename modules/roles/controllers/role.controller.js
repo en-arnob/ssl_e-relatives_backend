@@ -2,6 +2,7 @@ const errorHandler = require("../../../utils/errorHandler");
 const errorResponse = require("../../../utils/errorResponse");
 const successResponse = require("../../../utils/successResponse");
 const db = require("../../../config/database.config");
+const { Op } = require("sequelize");
 
 const Role = db.model.role;
 
@@ -182,7 +183,9 @@ exports.findByPriorityFiveSix = async (req, res) => {
   try {
     const query = await Role.findAll({
       where: {
-        priority: 5 || 6,
+        priority: {
+          [Op.in]: [5, 6],
+        },
       },
     });
     if (query.length > 0) {
