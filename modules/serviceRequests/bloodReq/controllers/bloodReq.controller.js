@@ -127,7 +127,7 @@ exports.create = async (req, res) => {
         // console.log(donor);
         axios
           .post(
-            `https://api.greenweb.com.bd/api.php?token=97351551401689673900003da986f5a5f7647b72309c70b65dae&to=${donor.user.mobile}&message=${message}`
+            `https://api.greenweb.com.bd/api.php?token=986011592816917335687fa2c89ab47c54c213485325c53b76ec&to=${donor.user.mobile}&message=${message}`
           )
           .then(() => {
             console.log(`Sent to ${donor.mobile}`);
