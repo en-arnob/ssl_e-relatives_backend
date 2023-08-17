@@ -13,6 +13,7 @@ exports.getAll = async (req, res) => {
     const data = await BloodRequest.findAll({
       where: {
         collection_point: collectionPoint,
+        status: 1,
         accepted_donor: {
           [Op.not]: null,
         },
@@ -31,11 +32,13 @@ exports.getAll = async (req, res) => {
       ],
     });
 
-    if (data.length === 0) {
-      return errorResponse(404, "NOT_FOUND", "No data found", res);
+    // if (data.length === 0) {
+    //   return errorResponse(404, "NOT_FOUND", "No data found", res);
+    // }
+    if(data) {
+      successResponse(200, "OK", data, res);
     }
-
-    successResponse(200, "OK", data, res);
+    
   } catch (err) {
     errorResponse(
       500,
@@ -79,4 +82,3 @@ exports.editStatusByDonor = async (req, res) => {
     );
   }
 };
-
