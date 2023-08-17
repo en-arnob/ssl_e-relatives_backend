@@ -61,6 +61,11 @@ module.exports = (app) => {
   require("../modules/serviceRequests/bloodReq/routes/bloodReq.route.js")(app);
   require("../modules/serviceRequests/reqByMe/routes/reqByMe.route.js")(app);
   require("../modules/serviceRequests/reqToMe/routes/reqToMe.route.js")(app);
-  require("../modules/serviceRequests/collPointRequest/routes/collPointReq.route.js")(app);
-  require("../modules/serviceRequests/reqForTest/routes/reqForTest.routes.js")(app);
+  require("../modules/serviceRequests/collPointRequest/routes/collPointReq.route.js")(
+    app
+  );
+  require("../modules/serviceRequests/reqForTest/routes/reqForTest.routes.js")(
+    app
+  );
+  require("../modules/serviceRequests/history/routes/history.route.js")(app);
 };
