@@ -78,3 +78,38 @@ exports.getAll = async (req, res) => {
     );
   }
 };
+
+exports.saveInvestigations = async (req, res) => {
+  try {
+    const bodyData = req.body;
+    // console.log(bodyData);
+
+    const find = await BloodRequest.findOne({
+      where: {
+        req_no: bodyData.reqNo,
+        accepted_donor: bodyData.donorId,
+      },
+    });
+    if (find) {
+      const updated = await BloodRequest.update(
+        {
+          investigation_ids: bodyData.invsCsv,
+        },
+        {
+          where: {
+            req_no: bodyData.reqNo,
+            accepted_donor: bodyData.donorId,
+          },
+        }
+      );
+      successResponse(200, "OK", updated, res);
+    }
+  } catch (err) {
+    errorResponse(
+      500,
+      "ERROR",
+      err.message || "Some error occurred while Finding data",
+      res
+    );
+  }
+};
