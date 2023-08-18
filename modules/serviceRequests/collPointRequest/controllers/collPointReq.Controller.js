@@ -43,7 +43,7 @@ exports.getAll = async (req, res) => {
     errorResponse(
       500,
       "ERROR",
-      err.message || "Some error occurred while finding data",
+      err.message || "Some error occurred while finding data ",
       res
     );
   }
