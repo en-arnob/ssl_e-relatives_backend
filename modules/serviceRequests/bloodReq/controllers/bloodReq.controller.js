@@ -1,3 +1,4 @@
+require("dotenv").config();
 const db = require("../../../../config/database.config");
 const axios = require("axios");
 const BloodRequest = db.model.bloodReq;
@@ -127,7 +128,7 @@ exports.create = async (req, res) => {
         // console.log(donor);
         axios
           .post(
-            `https://api.greenweb.com.bd/api.php?token=986011592816917335687fa2c89ab47c54c213485325c53b76ec&to=${donor.user.mobile}&message=${message}`
+            `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${donor.user.mobile}&message=${message}`
           )
           .then(() => {
             console.log(`Sent to ${donor.mobile}`);
@@ -136,13 +137,12 @@ exports.create = async (req, res) => {
             console.log("error");
           });
       });
-
-      return res.json({
-        msg: "Request created",
-        donors: matchedDonors,
-        dateOnly,
-      });
     }
+    return res.json({
+      msg: "Request created",
+      donors: matchedDonors,
+      dateOnly,
+    });
   } catch (err) {
     errorResponse(
       500,
