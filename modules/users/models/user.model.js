@@ -7,8 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     registration_no: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 100001,
     },
 
     f_name: {

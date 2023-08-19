@@ -22,14 +22,17 @@ exports.signup = async (req, res) => {
           message: "User Already Created Using This Mobile Number",
         });
       } else {
-        const registrationNo = Math.floor(
-          1000000000 +
-            Math.random() *
-              9000000000 *
-              Math.floor(1000000000 + Math.random() * 9000000000 * Date.now())
-        )
-          .toString()
-          .substring(2, 10);
+        // const registrationNo = Math.floor(
+        //   1000000000 +
+        //     Math.random() *
+        //       9000000000 *
+        //       Math.floor(1000000000 + Math.random() * 9000000000 * Date.now())
+        // )
+        //   .toString()
+        //   .substring(2, 10);
+
+        const highestRegNo = await User.max("registration_no");
+        const registrationNo = highestRegNo + 1;
 
         const initialOTP = Math.floor(100000 + Math.random() * 900000);
 
