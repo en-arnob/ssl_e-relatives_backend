@@ -33,3 +33,26 @@ exports.create = async (req, res) => {
     );
   }
 };
+
+exports.getAll = async (req, res) => {
+  try {
+    const packages = await Package.findAll({
+      include: [
+        {
+          model: PackageFeature,
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+    if (packages) {
+      successResponse(200, "OK", packages, res);
+    }
+  } catch (err) {
+    errorResponse(
+      500,
+      "ERROR",
+      err.message || "Some error occurred while Creating Package",
+      res
+    );
+  }
+};
