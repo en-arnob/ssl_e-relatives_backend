@@ -525,6 +525,8 @@ module.exports = (sequelize, DataTypes) => {
 
   // ===== End UserDetails & City Relationship ===== //
 
+  // Start Service Request: Blood //
+
   db.bloodReq =
     require("../modules/serviceRequests/bloodReq/models/bloodReq.model.js")(
       sequelize,
@@ -574,6 +576,31 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   // ===== End BloodRequest & RequestUser Relationship ===== //
+
+  // End Service Request: Blood //
+
+  // Start Package //
+  db.package = require("../modules/package/models/package.model.js")(
+    sequelize,
+    DataTypes
+  );
+  db.packageFeature =
+    require("../modules/package/models/packageFeatures.model.js")(
+      sequelize,
+      DataTypes
+    );
+  db.package.hasMany(db.packageFeature, {
+    foreignKey: {
+      name: "package_id",
+    },
+  });
+  db.packageFeature.belongsTo(db.package, {
+    foreignKey: {
+      name: "package_id",
+    },
+  });
+
+  // End Package //
 
   return db;
 };
