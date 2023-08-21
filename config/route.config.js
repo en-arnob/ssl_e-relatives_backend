@@ -68,4 +68,5 @@ module.exports = (app) => {
     app
   );
   require("../modules/serviceRequests/history/routes/history.route.js")(app);
+  require("../modules/package/routes/package.route.js")(app);
 };
