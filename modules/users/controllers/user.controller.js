@@ -294,7 +294,7 @@ exports.updateUser = async (req, res) => {
         },
       });
       const user = await User.findByPk(userId);
-      console.log('user', user);
+      console.log("user", user);
       if (user) {
         const restofthefieldsUpdate = await User.update(
           {
@@ -303,6 +303,7 @@ exports.updateUser = async (req, res) => {
             nid: userData.nid,
             image: userData.image,
             user_details_added: 1,
+            email: userData.email,
           },
           {
             where: {

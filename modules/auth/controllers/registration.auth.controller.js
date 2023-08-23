@@ -64,6 +64,8 @@ exports.signup = async (req, res) => {
         const data = await User.create(dataObj);
         const details = await UserDetails.create({
           user_id: data.id,
+          blood_group: userData.bloodGroup,
+          dghs_license: userData.dghsLicense,
         });
         // console.log(data);
         // const message = `Dear ${data.f_name}, Please confirm Your OTP: ${initialOTP} in the browser to continue registration.`;
