@@ -119,6 +119,7 @@ exports.create = async (req, res) => {
         req_no: bloodReqNo,
         req_blood_group: bloodReqData.bg,
         date_time: bloodReqData.dateTime,
+        time: bloodReqData.time,
         collection_point: bloodReqData.collectionPoint,
       });
     }

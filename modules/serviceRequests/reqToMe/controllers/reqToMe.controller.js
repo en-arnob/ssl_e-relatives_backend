@@ -97,12 +97,7 @@ exports.getAll = async (req, res) => {
         },
       ],
     });
-
-    const lastBloodDonateDate = new Date(user.user_detail.last_blood_donate);
-    const currentDate = new Date();
-    const timeDifference = currentDate - lastBloodDonateDate;
-    const diffInMonths = timeDifference / (1000 * 60 * 60 * 24 * 30.44);
-    if (diffInMonths >= 3) {
+    if (user.user_detail.last_blood_donate === "0000-00-00") {
       const bloodRequests = await BloodRequest.findAll({
         where: {
           req_blood_group: user.user_detail.blood_group,
@@ -165,9 +160,78 @@ exports.getAll = async (req, res) => {
         (item) => item.col_point.user_detail.city_id === myCityId
       );
       successResponse(200, "OK", cityFilteredBReqs, res);
-      // successResponse(200, "OK", user, res);
     } else {
-      res.json({ msg: "Last blood donation was less than 3 months ago." });
+      const lastBloodDonateDate = new Date(user.user_detail.last_blood_donate);
+      const currentDate = new Date();
+      const timeDifference = currentDate - lastBloodDonateDate;
+      const diffInMonths = timeDifference / (1000 * 60 * 60 * 24 * 30.44);
+      if (diffInMonths >= 3) {
+        const bloodRequests = await BloodRequest.findAll({
+          where: {
+            req_blood_group: user.user_detail.blood_group,
+
+            [Op.or]: [{ accepted_donor: null }, { accepted_donor: userId }],
+            user_id: {
+              [Op.not]: userId,
+            },
+          },
+          include: [
+            {
+              model: User,
+              as: "req_by",
+              attributes: ["id", "f_name", "mobile", "email", "image"],
+            },
+            {
+              model: User,
+              as: "col_point",
+              attributes: [
+                "id",
+                "role_id",
+                "f_name",
+                "mobile",
+                "email",
+                "address_1",
+              ],
+              include: [
+                {
+                  model: UserDetails,
+                  attributes: [
+                    "country_id",
+                    "city_id",
+                    "state_id",
+                    "owner_name",
+                    "responsible_person_name",
+                    "trade_license",
+                  ],
+                  include: [
+                    {
+                      model: City,
+                      attributes: ["id", "name"],
+                    },
+                    {
+                      model: State,
+                      attributes: ["id", "name"],
+                    },
+                    {
+                      model: Country,
+                      attributes: ["id", "name"],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        });
+        const myCityId = user.user_detail.city_id;
+        // console.log(myCityId);
+        const cityFilteredBReqs = bloodRequests.filter(
+          (item) => item.col_point.user_detail.city_id === myCityId
+        );
+        successResponse(200, "OK", cityFilteredBReqs, res);
+        // successResponse(200, "OK", user, res);
+      } else {
+        res.json({ msg: "Last blood donation was less than 3 months ago." });
+      }
     }
   } catch (err) {
     errorResponse(
