@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     date_time: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
+    time: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     collection_point: {
