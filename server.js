@@ -43,9 +43,9 @@ db.sequelize.sync().then(() => {
 require("./config/route.config.js")(app);
 
 // app level error handler
-app.all("*", (req, res, next) => {
-  next(new AppError(`The URL ${req.originalUrl} does not exists`, 404));
-});
+// app.all("*", (req, res, next) => {
+//   next(new AppError(`The URL ${req.originalUrl} does not exists`, 404));
+// });
 
 // app.use(express.static(path.join(__dirname, "/build")));
 // app.get("*", (req, res) => {
