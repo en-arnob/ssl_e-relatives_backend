@@ -9,6 +9,7 @@ const State = db.model.state;
 const Country = db.model.country;
 const errorResponse = require("../../../../utils/errorResponse");
 const successResponse = require("../../../../utils/successResponse");
+const dateFormatter = require("../../../../helpers/dateFormatter");
 
 const { Op } = require("sequelize");
 
@@ -123,7 +124,30 @@ exports.create = async (req, res) => {
         collection_point: bloodReqData.collectionPoint,
       });
     }
-    const message = `Dear Blood Donor, ${bloodReqData.bg} needed in collection point: ${colPoint?.address_1}`;
+    // const message = `Dear Blood Donor, ${bloodReqData.bg} needed in collection point: ${colPoint?.address_1}`;
+
+    const message = `Hello! Someone requested for ${
+      parseInt(bloodReqData.bg) === 1
+        ? "(A Positive)"
+        : parseInt(bloodReqData.bg) === 2
+        ? "(A Negative) "
+        : parseInt(bloodReqData.bg) === 3
+        ? "(B Positive)"
+        : parseInt(bloodReqData.bg) === 4
+        ? "(B Negative)"
+        : parseInt(bloodReqData.bg) === 5
+        ? "(O Positive)"
+        : parseInt(bloodReqData.bg) === 6
+        ? "(O Negative)"
+        : parseInt(bloodReqData.bg) === 7
+        ? "(AB Positive)"
+        : parseInt(bloodReqData.bg) === 8
+        ? "(AB Negative)"
+        : ""
+    } Blood at ${colPoint?.f_name}, ${
+      colPoint?.address_1
+    } for ${dateFormatter.formatDate(dateOnly)}, ${bloodReqData?.time}`;
+
     if (matchedDonors) {
       await matchedDonors.forEach((donor) => {
         // console.log(donor);

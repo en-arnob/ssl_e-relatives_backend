@@ -1,4 +1,6 @@
+require("dotenv").config();
 const db = require("../../../../config/database.config");
+const axios = require("axios");
 const BloodRequest = db.model.bloodReq;
 const User = db.model.user;
 const UserDetails = db.model.UserDetails;
@@ -260,7 +262,51 @@ exports.accept = async (req, res) => {
           },
         }
       );
-      successResponse(200, "OK", updatedRequest, res);
+      const acceptedReqData = await BloodRequest.findByPk(reqId, {
+        include: [
+          {
+            model: User,
+            as: "req_by",
+            attributes: ["id", "f_name", "mobile", "email", "image"],
+          },
+          {
+            model: User,
+            as: "donor",
+            attributes: ["id", "f_name", "mobile", "email", "image"],
+          },
+          {
+            model: User,
+            as: "col_point",
+            attributes: ["id", "f_name", "mobile", "email", "image"],
+          },
+        ],
+      });
+
+      const message1 = `Your Blood Request No. is ${acceptedReqData?.req_no} and Donor is Mr/Mrs ${acceptedReqData?.donor?.f_name}, Cell No. ${acceptedReqData?.donor?.mobile} . Please schedule with him/her for the donation`;
+      const sentMessage1 = await axios.post(
+        `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.req_by?.mobile}&message=${message1}`
+      );
+      if (sentMessage1) {
+        const message2 = `Please remember: The donor is helping you to save life. Please entertain him/her with some drinks and be conscious about his/her transport cost.`;
+
+        const sentMessage2 = await axios.post(
+          `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.req_by?.mobile}&message=${message2}`
+        );
+        // console.log(request);
+      }
+      const message3 = `Your Donation No. is ${acceptedReqData?.req_no}, You are helping to save someone's life. You are a real hero. Please don't demand any kind of benefit from the receiver`;
+      const sentMessage3 = await axios.post(
+        `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.donor?.mobile}&message=${message3}`
+      );
+      if (sentMessage3) {
+        const message4 = `Mr/Mrs. ${acceptedReqData?.req_by?.f_name} made a schedule to collect blood from Mr/Mrs. ${acceptedReqData?.donor?.f_name}. The Donation No. is ${acceptedReqData?.req_no}. Please co-operate them.`;
+        const sentMessage4 = await axios.post(
+          `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.col_point?.mobile}&message=${message4}`
+        );
+        if (sentMessage4) {
+          successResponse(200, "OK", acceptedReqData, res);
+        }
+      }
     }
   } catch (err) {
     errorResponse(
