@@ -602,5 +602,13 @@ module.exports = (sequelize, DataTypes) => {
 
   // End Package //
 
+  // Start TestRequest //
+  db.testReq =
+    require("../modules/serviceRequests/testReq/models/testReq.model.js")(
+      sequelize,
+      DataTypes
+    );
+  // End TestRequest //
+
   return db;
 };
