@@ -1,4 +1,6 @@
+require("dotenv").config();
 const db = require("../../../../config/database.config");
+const axios = require("axios");
 const BloodRequest = db.model.bloodReq;
 const User = db.model.user;
 const UserDetails = db.model.UserDetails;
@@ -89,6 +91,13 @@ exports.saveInvestigations = async (req, res) => {
         req_no: bodyData.reqNo,
         accepted_donor: bodyData.donorId,
       },
+      include: [
+        {
+          model: User,
+          as: "donor",
+          attributes: ["id", "f_name", "mobile"],
+        },
+      ],
     });
     if (find) {
       const updated = await BloodRequest.update(
@@ -102,7 +111,13 @@ exports.saveInvestigations = async (req, res) => {
           },
         }
       );
-      successResponse(200, "OK", updated, res);
+      const message = `Thanks for your support. Please drink more water for recover your blood soon. Don't donate blood in next 3 months.`;
+      const sentMessage = await axios.post(
+        `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${find?.donor?.mobile}&message=${message}`
+      );
+      if (sentMessage) {
+        successResponse(200, "OK", updated, res);
+      }
     }
   } catch (err) {
     errorResponse(
