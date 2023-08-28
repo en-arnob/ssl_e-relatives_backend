@@ -17,6 +17,7 @@ module.exports = (app) => {
   testReqRouter.get("/:userId", testReqController.getAll);
 
   // cancel a request
+  testReqRouter.post("/cancel/:reqId", testReqController.cancelRequest);
 
   app.use("/api/services/request/test", testReqRouter);
 };

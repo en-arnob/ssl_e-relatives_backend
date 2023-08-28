@@ -113,7 +113,7 @@ exports.getDonors = async (req, res) => {
 };
 exports.cancelRequest = async (req, res) => {
   const reqId = req.params.reqId;
-  console.log(reqId);
+  // console.log(reqId);
   try {
     const data = await BloodRequest.update(
       {
@@ -129,7 +129,7 @@ exports.cancelRequest = async (req, res) => {
       return errorResponse(404, "NOT_FOUND", "No data found", res);
     }
     successResponse(200, "OK", data, res);
-  } catch (error) {
+  } catch (err) {
     errorResponse(
       500,
       "ERROR",

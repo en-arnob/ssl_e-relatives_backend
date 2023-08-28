@@ -88,3 +88,36 @@ exports.getAll = async (req, res) => {
     );
   }
 };
+
+exports.cancelRequest = async (req, res) => {
+  const { reqId } = req.params;
+
+  try {
+    const del = await TestReq.update(
+      {
+        status: 3,
+      },
+      {
+        where: {
+          req_no: reqId,
+        },
+      }
+    );
+    if (del[0] === 0) {
+      return errorResponse(
+        404,
+        "NOT_FOUND",
+        "No request found with given reqId",
+        res
+      );
+    }
+    successResponse(200, "OK", del, res);
+  } catch (err) {
+    errorResponse(
+      500,
+      "ERROR",
+      err.message || "Some error occurred while deleting request",
+      res
+    );
+  }
+};
