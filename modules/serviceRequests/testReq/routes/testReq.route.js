@@ -1,9 +1,23 @@
 const testReqRouter = require("express").Router();
 const testReqController = require("../controllers/testReq.controller.js");
+const invImageUploadMulter = require("../../../../middlewares/uploadInvestigationImage.js");
 
 module.exports = (app) => {
-  // e-rel new methods
+  // create test request
   testReqRouter.post("/", testReqController.create);
+
+  // upload investigation image file
+  testReqRouter.post(
+    "/upload-image",
+    invImageUploadMulter,
+    testReqController.uploadInvImage
+  );
+
+  // fetch all requests by me for test
+  testReqRouter.get("/:userId", testReqController.getAll);
+
+  // cancel a request
+  testReqRouter.post("/cancel/:reqId", testReqController.cancelRequest);
 
   app.use("/api/services/request/test", testReqRouter);
 };
