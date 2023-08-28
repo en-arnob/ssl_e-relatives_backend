@@ -13,5 +13,10 @@ module.exports = (app) => {
     testReqController.uploadInvImage
   );
 
+  // fetch all requests by me for test
+  testReqRouter.get("/:userId", testReqController.getAll);
+
+  // cancel a request
+
   app.use("/api/services/request/test", testReqRouter);
 };

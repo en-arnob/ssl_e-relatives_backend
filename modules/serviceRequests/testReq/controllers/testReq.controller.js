@@ -68,3 +68,23 @@ exports.uploadInvImage = async (req, res) => {
     );
   }
 };
+
+exports.getAll = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const myReqs = await TestReq.findAll({
+      where: {
+        user_id: userId,
+      },
+    });
+    myReqs && successResponse(200, "OK", myReqs, res);
+  } catch (error) {
+    errorResponse(
+      500,
+      "ERROR",
+      error.message || "Some error occurred while fetching data",
+      res
+    );
+  }
+};
