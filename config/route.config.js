@@ -70,4 +70,7 @@ module.exports = (app) => {
   require("../modules/serviceRequests/history/routes/history.route.js")(app);
   require("../modules/package/routes/package.route.js")(app);
   require("../modules/serviceRequests/testReq/routes/testReq.route.js")(app);
+  require("../modules/serviceRequests/diagnosisReq/routes/diagnosisReq.route.js")(
+    app
+  );
 };
