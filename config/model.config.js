@@ -608,6 +608,21 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       DataTypes
     );
+  // ===== Start TestReq & RequestUser Relationship ===== //
+  db.user.hasMany(db.testReq, {
+    as: "test_requester",
+    foreignKey: {
+      name: "user_id",
+    },
+  });
+  db.testReq.belongsTo(db.user, {
+    as: "test_requester",
+    foreignKey: {
+      name: "user_id",
+    },
+  });
+  // ===== End TestReq & RequestUser Relationship ===== //
+
   // End TestRequest //
 
   return db;
