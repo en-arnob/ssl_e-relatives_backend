@@ -631,6 +631,20 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       DataTypes
     );
+  // ===== Start DiagnoResponse & DiagnosticCenter Relationship ===== //
+  db.user.hasMany(db.testDiagnoRes, {
+    as: "diagno_responder",
+    foreignKey: {
+      name: "service_center_id",
+    },
+  });
+  db.testDiagnoRes.belongsTo(db.user, {
+    as: "diagno_responder",
+    foreignKey: {
+      name: "service_center_id",
+    },
+  });
+  // ===== End DiagnoResponse & DiagnosticCenter Relationship ===== //
   // End DiagnoResponse //
 
   return db;

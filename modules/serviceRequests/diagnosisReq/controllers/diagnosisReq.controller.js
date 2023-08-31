@@ -63,7 +63,43 @@ exports.saveResponse = async (req, res) => {
         cost: obj.cost,
       });
     }
+    const updateRequest = await TestReq.update(
+      {
+        status: 1,
+      },
+      {
+        where: {
+          req_no: reqNo,
+        },
+      }
+    );
     successResponse(200, "OK", reqNo, res);
+  } catch (error) {
+    errorResponse(
+      500,
+      "ERROR",
+      error.message || "Some error occurred while Creeating Request",
+      res
+    );
+  }
+};
+
+exports.getAllResponses = async (req, res) => {
+  const { reqNo } = req.params;
+  try {
+    const responses = await TestDiagnoResponse.findAll({
+      include: {
+        model: User,
+        as: "diagno_responder",
+        attributes: ["id", "f_name", "address_1"],
+      },
+      where: {
+        req_no: reqNo,
+      },
+    });
+    if (responses) {
+      successResponse(200, "OK", responses, res);
+    }
   } catch (error) {
     errorResponse(
       500,
