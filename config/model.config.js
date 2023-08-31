@@ -625,5 +625,41 @@ module.exports = (sequelize, DataTypes) => {
 
   // End TestRequest //
 
+  // Start DiagnoResponse //
+  db.testDiagnoRes =
+    require("../modules/serviceRequests/diagnosisReq/models/diagnosisResponse.model.js")(
+      sequelize,
+      DataTypes
+    );
+  // ===== Start DiagnoResponse & DiagnosticCenter Relationship ===== //
+  db.user.hasMany(db.testDiagnoRes, {
+    as: "diagno_responder",
+    foreignKey: {
+      name: "service_center_id",
+    },
+  });
+  db.testDiagnoRes.belongsTo(db.user, {
+    as: "diagno_responder",
+    foreignKey: {
+      name: "service_center_id",
+    },
+  });
+  // ===== End DiagnoResponse & DiagnosticCenter Relationship ===== //
+  // ===== Start DiagnoResponse & Investigation Relationship ===== //
+  db.investigation.hasMany(db.testDiagnoRes, {
+    as: "investigationDetails",
+    foreignKey: {
+      name: "investigation",
+    },
+  });
+  db.testDiagnoRes.belongsTo(db.investigation, {
+    as: "investigationDetails",
+    foreignKey: {
+      name: "investigation",
+    },
+  });
+  // ===== End DiagnoResponse & Investigation Relationship ===== //
+  // End DiagnoResponse //
+
   return db;
 };
