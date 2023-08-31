@@ -645,6 +645,20 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   // ===== End DiagnoResponse & DiagnosticCenter Relationship ===== //
+  // ===== Start DiagnoResponse & Investigation Relationship ===== //
+  db.investigation.hasMany(db.testDiagnoRes, {
+    as: "investigationDetails",
+    foreignKey: {
+      name: "investigation",
+    },
+  });
+  db.testDiagnoRes.belongsTo(db.investigation, {
+    as: "investigationDetails",
+    foreignKey: {
+      name: "investigation",
+    },
+  });
+  // ===== End DiagnoResponse & Investigation Relationship ===== //
   // End DiagnoResponse //
 
   return db;

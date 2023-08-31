@@ -3,6 +3,7 @@ const TestReq = db.model.testReq;
 const User = db.model.user;
 const UserDetails = db.model.UserDetails;
 const TestDiagnoResponse = db.model.testDiagnoRes;
+const Investigation = db.model.investigation;
 const errorResponse = require("../../../../utils/errorResponse");
 const successResponse = require("../../../../utils/successResponse");
 const { Op } = require("sequelize");
@@ -88,11 +89,18 @@ exports.getAllResponses = async (req, res) => {
   const { reqNo } = req.params;
   try {
     const responses = await TestDiagnoResponse.findAll({
-      include: {
-        model: User,
-        as: "diagno_responder",
-        attributes: ["id", "f_name", "address_1"],
-      },
+      include: [
+        {
+          model: User,
+          as: "diagno_responder",
+          attributes: ["id", "f_name", "address_1"],
+        },
+        {
+          model: Investigation,
+          as: "investigationDetails",
+          attributes: ["id", "name"],
+        },
+      ],
       where: {
         req_no: reqNo,
       },
