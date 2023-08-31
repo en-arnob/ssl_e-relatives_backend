@@ -625,5 +625,13 @@ module.exports = (sequelize, DataTypes) => {
 
   // End TestRequest //
 
+  // Start DiagnoResponse //
+  db.testDiagnoRes =
+    require("../modules/serviceRequests/diagnosisReq/models/diagnosisResponse.model.js")(
+      sequelize,
+      DataTypes
+    );
+  // End DiagnoResponse //
+
   return db;
 };
