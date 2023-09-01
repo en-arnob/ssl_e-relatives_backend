@@ -121,3 +121,35 @@ exports.cancelRequest = async (req, res) => {
     );
   }
 };
+
+exports.confirm = async (req, res) => {
+  const { reqId } = req.params;
+  try {
+    const confirmationUpdate = await TestReq.update(
+      {
+        status: 2,
+      },
+      {
+        where: {
+          req_no: reqId,
+        },
+      }
+    );
+    if (confirmationUpdate[0] === 0) {
+      return errorResponse(
+        404,
+        "NOT_FOUND",
+        "No request found with given reqId",
+        res
+      );
+    }
+    successResponse(200, "OK", confirmationUpdate, res);
+  } catch (error) {
+    errorResponse(
+      500,
+      "ERROR",
+      error.message || "Some error occurred while confirming request",
+      res
+    );
+  }
+};
