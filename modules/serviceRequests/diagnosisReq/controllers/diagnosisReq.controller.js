@@ -16,6 +16,7 @@ exports.getAll = async (req, res) => {
       where: {
         id: diagnoAccId,
       },
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: UserDetails,
@@ -148,6 +149,11 @@ exports.fetchHistory = async (req, res) => {
   const { diagnoCenterId } = req.params;
   try {
     const testHistory = await TestReq.findAll({
+      include: {
+        model: User,
+        as: "test_requester",
+        attributes: ["id", "f_name"],
+      },
       where: {
         completed_by: diagnoCenterId,
         status: 4,

@@ -77,6 +77,7 @@ exports.getAll = async (req, res) => {
       where: {
         user_id: userId,
       },
+      order: [["createdAt", "DESC"]],
     });
     myReqs && successResponse(200, "OK", myReqs, res);
   } catch (error) {
