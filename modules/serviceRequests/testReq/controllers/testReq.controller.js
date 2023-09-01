@@ -77,6 +77,7 @@ exports.getAll = async (req, res) => {
       where: {
         user_id: userId,
       },
+      order: [["createdAt", "DESC"]],
     });
     myReqs && successResponse(200, "OK", myReqs, res);
   } catch (error) {
@@ -117,6 +118,38 @@ exports.cancelRequest = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while deleting request",
+      res
+    );
+  }
+};
+
+exports.confirm = async (req, res) => {
+  const { reqId } = req.params;
+  try {
+    const confirmationUpdate = await TestReq.update(
+      {
+        status: 2,
+      },
+      {
+        where: {
+          req_no: reqId,
+        },
+      }
+    );
+    if (confirmationUpdate[0] === 0) {
+      return errorResponse(
+        404,
+        "NOT_FOUND",
+        "No request found with given reqId",
+        res
+      );
+    }
+    successResponse(200, "OK", confirmationUpdate, res);
+  } catch (error) {
+    errorResponse(
+      500,
+      "ERROR",
+      error.message || "Some error occurred while confirming request",
       res
     );
   }

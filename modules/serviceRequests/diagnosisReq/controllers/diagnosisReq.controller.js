@@ -16,6 +16,7 @@ exports.getAll = async (req, res) => {
       where: {
         id: diagnoAccId,
       },
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: UserDetails,
@@ -113,6 +114,59 @@ exports.getAllResponses = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while Creeating Request",
+      res
+    );
+  }
+};
+
+exports.markCompleted = async (req, res) => {
+  const { reqNo, diagnoCenterId } = req.params;
+  try {
+    const markedOnComplete = await TestReq.update(
+      {
+        status: 4,
+        completed_by: diagnoCenterId,
+      },
+      {
+        where: {
+          req_no: reqNo,
+        },
+      }
+    );
+    if (markedOnComplete[0] === 0) {
+      return errorResponse(
+        404,
+        "NOT_FOUND",
+        "No request found with given reqId",
+        res
+      );
+    }
+    successResponse(200, "OK", markedOnComplete, res);
+  } catch (error) {}
+};
+
+exports.fetchHistory = async (req, res) => {
+  const { diagnoCenterId } = req.params;
+  try {
+    const testHistory = await TestReq.findAll({
+      include: {
+        model: User,
+        as: "test_requester",
+        attributes: ["id", "f_name"],
+      },
+      where: {
+        completed_by: diagnoCenterId,
+        status: 4,
+      },
+    });
+    if (testHistory) {
+      successResponse(200, "OK", testHistory, res);
+    }
+  } catch (error) {
+    errorResponse(
+      500,
+      "ERROR",
+      error.message || "Some error occurred while Finding data",
       res
     );
   }

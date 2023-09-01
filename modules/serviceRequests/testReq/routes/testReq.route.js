@@ -19,5 +19,8 @@ module.exports = (app) => {
   // cancel a request
   testReqRouter.post("/cancel/:reqId", testReqController.cancelRequest);
 
+  // confirm testDiagnostic Response
+  testReqRouter.put("/confirm/:reqId", testReqController.confirm);
+
   app.use("/api/services/request/test", testReqRouter);
 };
