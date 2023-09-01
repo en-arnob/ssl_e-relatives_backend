@@ -16,8 +16,14 @@ module.exports = (app) => {
 
   //mark completed by diagnostic center
   diagnosisReqRouter.put(
-    "/mark-as-completed/:reqNo",
+    "/mark-as-completed/:reqNo/:diagnoCenterId",
     diagnosisReqController.markCompleted
+  );
+
+  // get diagnosis test completed histories
+  diagnosisReqRouter.get(
+    "/history/:diagnoCenterId",
+    diagnosisReqController.fetchHistory
   );
   app.use("/api/services/diagnosis-reqs", diagnosisReqRouter);
 };

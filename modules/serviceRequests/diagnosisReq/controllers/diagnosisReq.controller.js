@@ -119,11 +119,12 @@ exports.getAllResponses = async (req, res) => {
 };
 
 exports.markCompleted = async (req, res) => {
-  const { reqNo } = req.params;
+  const { reqNo, diagnoCenterId } = req.params;
   try {
     const markedOnComplete = await TestReq.update(
       {
         status: 4,
+        completed_by: diagnoCenterId,
       },
       {
         where: {
@@ -141,4 +142,26 @@ exports.markCompleted = async (req, res) => {
     }
     successResponse(200, "OK", markedOnComplete, res);
   } catch (error) {}
+};
+
+exports.fetchHistory = async (req, res) => {
+  const { diagnoCenterId } = req.params;
+  try {
+    const testHistory = await TestReq.findAll({
+      where: {
+        completed_by: diagnoCenterId,
+        status: 4,
+      },
+    });
+    if (testHistory) {
+      successResponse(200, "OK", testHistory, res);
+    }
+  } catch (error) {
+    errorResponse(
+      500,
+      "ERROR",
+      error.message || "Some error occurred while Finding data",
+      res
+    );
+  }
 };

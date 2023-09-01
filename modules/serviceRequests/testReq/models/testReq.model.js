@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    completed_by: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   });
 
   return TestReq;
