@@ -13,5 +13,11 @@ module.exports = (app) => {
     "/get-responses/:reqNo",
     diagnosisReqController.getAllResponses
   );
+
+  //mark completed by diagnostic center
+  diagnosisReqRouter.put(
+    "/mark-as-completed/:reqNo",
+    diagnosisReqController.markCompleted
+  );
   app.use("/api/services/diagnosis-reqs", diagnosisReqRouter);
 };
