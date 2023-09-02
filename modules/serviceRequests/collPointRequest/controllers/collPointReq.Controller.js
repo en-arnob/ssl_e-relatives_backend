@@ -19,6 +19,7 @@ exports.getAll = async (req, res) => {
           [Op.not]: null,
         },
       },
+      order: [["id", "DESC"]],
       include: [
         {
           model: User,
@@ -44,7 +45,7 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while finding data ",
-      res
+      res,
     );
   }
 };
@@ -70,7 +71,7 @@ exports.editStatusByDonor = async (req, res) => {
             accepted_donor: donor_id,
             req_no: body.req_no,
           },
-        }
+        },
       );
       const donateDateUpdate = await UserDetails.update(
         {
@@ -80,7 +81,7 @@ exports.editStatusByDonor = async (req, res) => {
           where: {
             user_id: donor_id,
           },
-        }
+        },
       );
       if (updateData[0] === 0) {
         return errorResponse(404, "NOT_FOUND", "No data found", res);
@@ -92,7 +93,7 @@ exports.editStatusByDonor = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while finding data",
-      res
+      res,
     );
   }
 };

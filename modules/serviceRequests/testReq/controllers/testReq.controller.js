@@ -12,7 +12,7 @@ exports.create = async (req, res) => {
       1000000000 +
         Math.random() *
           9000000000 *
-          Math.floor(1000000000 + Math.random() * 9000000000 * Date.now())
+          Math.floor(1000000000 + Math.random() * 9000000000 * Date.now()),
     )
       .toString()
       .substring(2, 10);
@@ -41,7 +41,7 @@ exports.create = async (req, res) => {
         500,
         "ERROR",
         "Some error occurred while Creating Request, Please try providing all information",
-        res
+        res,
       );
     }
   } catch (err) {
@@ -49,7 +49,7 @@ exports.create = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Creeating Request",
-      res
+      res,
     );
   }
 };
@@ -64,7 +64,7 @@ exports.uploadInvImage = async (req, res) => {
       "ERROR",
       err.message ||
         "Some error occurred while Finding Users By Date_of_Birth.",
-      res
+      res,
     );
   }
 };
@@ -77,7 +77,7 @@ exports.getAll = async (req, res) => {
       where: {
         user_id: userId,
       },
-      order: [["createdAt", "DESC"]],
+      order: [["id", "DESC"]],
     });
     myReqs && successResponse(200, "OK", myReqs, res);
   } catch (error) {
@@ -85,7 +85,7 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while fetching data",
-      res
+      res,
     );
   }
 };
@@ -102,14 +102,14 @@ exports.cancelRequest = async (req, res) => {
         where: {
           req_no: reqId,
         },
-      }
+      },
     );
     if (del[0] === 0) {
       return errorResponse(
         404,
         "NOT_FOUND",
         "No request found with given reqId",
-        res
+        res,
       );
     }
     successResponse(200, "OK", del, res);
@@ -118,7 +118,7 @@ exports.cancelRequest = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while deleting request",
-      res
+      res,
     );
   }
 };
@@ -134,14 +134,14 @@ exports.confirm = async (req, res) => {
         where: {
           req_no: reqId,
         },
-      }
+      },
     );
     if (confirmationUpdate[0] === 0) {
       return errorResponse(
         404,
         "NOT_FOUND",
         "No request found with given reqId",
-        res
+        res,
       );
     }
     successResponse(200, "OK", confirmationUpdate, res);
@@ -150,7 +150,7 @@ exports.confirm = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while confirming request",
-      res
+      res,
     );
   }
 };

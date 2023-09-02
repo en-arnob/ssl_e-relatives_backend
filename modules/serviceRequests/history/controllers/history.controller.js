@@ -21,6 +21,7 @@ exports.getAll = async (req, res) => {
         accepted_donor: userId,
         status: 2,
       },
+      order: [["id", "DESC"]],
       include: [
         {
           model: User,
@@ -89,6 +90,7 @@ exports.getAllRecieved = async (req, res) => {
         user_id: userId,
         status: 2,
       },
+      order: [["id", "DESC"]],
       include: [
         {
           model: User,
@@ -158,6 +160,7 @@ exports.getAllCollected = async (req, res) => {
         collection_point: serviceCenterId,
         status: 2,
       },
+      order: [["id", "DESC"]],
       include: [
         {
           model: User,

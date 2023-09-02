@@ -16,7 +16,7 @@ exports.getAll = async (req, res) => {
       where: {
         id: diagnoAccId,
       },
-      order: [["createdAt", "DESC"]],
+      order: [["id", "DESC"]],
       include: [
         {
           model: UserDetails,
@@ -158,6 +158,7 @@ exports.fetchHistory = async (req, res) => {
         completed_by: diagnoCenterId,
         status: 4,
       },
+      order: [["id", "DESC"]],
     });
     if (testHistory) {
       successResponse(200, "OK", testHistory, res);
@@ -185,6 +186,7 @@ exports.fetchHistoryUser = async (req, res) => {
         user_id: userId,
         status: 4,
       },
+      order: [["id", "DESC"]],
     });
     if (testHistory) {
       successResponse(200, "OK", testHistory, res);

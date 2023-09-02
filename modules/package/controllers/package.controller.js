@@ -30,7 +30,7 @@ exports.create = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Creating Package",
-      res
+      res,
     );
   }
 };
@@ -43,7 +43,7 @@ exports.getAll = async (req, res) => {
           model: PackageFeature,
         },
       ],
-      order: [["createdAt", "DESC"]],
+      order: [["id", "DESC"]],
     });
     if (packages) {
       successResponse(200, "OK", packages, res);
@@ -53,7 +53,7 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Creating Package",
-      res
+      res,
     );
   }
 };
@@ -110,7 +110,7 @@ exports.update = async (req, res) => {
           where: {
             id: id,
           },
-        }
+        },
       );
       if (updatedPackage) {
         const deletedNum = await PackageFeature.destroy({
@@ -138,7 +138,7 @@ exports.update = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Creating Package",
-      res
+      res,
     );
   }
 };
