@@ -4,6 +4,8 @@ require("dotenv").config();
 const db = require("../../../../config/database.config");
 const axios = require("axios");
 const TestReq = db.model.testReq;
+const User = db.model.user;
+const UserDetails = db.model.UserDetails;
 
 exports.create = async (req, res) => {
   const testdata = req.body;
@@ -27,7 +29,51 @@ exports.create = async (req, res) => {
         select_type: testdata.selectionType,
         investigation_ids: invCsv,
       });
-      newTestReq && successResponse(200, "OK", testdata, res);
+
+      // here sms send -> first find user with city id from testdata.userId. Then find service centers with that cityId and extract their phone numbers and send them sms
+
+      let user = await UserDetails.findOne({
+        where: {
+          user_id: testdata.userId,
+        },
+        attributes: ["user_id", "city_id"],
+      });
+
+      if (user) {
+        let userCityId = user.city_id;
+        let serviceCenters = await UserDetails.findAll({
+          where: {
+            city_id: userCityId,
+          },
+          include: [
+            {
+              model: User,
+              where: {
+                role_id: 13,
+              },
+              attributes: ["role_id", "f_name", "mobile"],
+            },
+          ],
+        });
+        if (serviceCenters) {
+          const message =
+            "Someone submitted a Test List. Please Prepare a Bill (Please submit your bill by 30 Minutes)";
+
+          await serviceCenters.forEach((serviceCenter) => {
+            axios
+              .post(
+                `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${serviceCenter.user.mobile}&message=${message}`,
+              )
+              .then(() => {
+                console.log(`Sent to ${serviceCenter.user.mobile}`);
+              })
+              .catch((error) => {
+                console.log("error");
+              });
+          });
+        }
+        successResponse(200, "OK", serviceCenters, res);
+      }
     } else if (parseInt(testdata.selectionType) === 2 && testdata.file) {
       const newTestReq = await TestReq.create({
         user_id: testdata.userId,
@@ -35,7 +81,50 @@ exports.create = async (req, res) => {
         select_type: testdata.selectionType,
         inv_image: testdata.file,
       });
-      newTestReq && successResponse(200, "OK", testdata, res);
+      // here sms send -> first find user with city id from testdata.userId. Then find service centers with that cityId and extract their phone numbers and send them sms
+      let user = await UserDetails.findOne({
+        where: {
+          user_id: testdata.userId,
+        },
+        attributes: ["user_id", "city_id"],
+      });
+
+      if (user) {
+        let userCityId = user.city_id;
+        let serviceCenters = await UserDetails.findAll({
+          where: {
+            city_id: userCityId,
+          },
+          include: [
+            {
+              model: User,
+              where: {
+                role_id: 13,
+              },
+              attributes: ["role_id", "f_name", "mobile"],
+            },
+          ],
+        });
+        if (serviceCenters) {
+          // console.log(serviceCenters);
+          const message =
+            "Someone submitted a Test List. Please Prepare a Bill (Please submit your bill by 30 Minutes)";
+
+          await serviceCenters.forEach((serviceCenter) => {
+            axios
+              .post(
+                `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${serviceCenter.user.mobile}&message=${message}`,
+              )
+              .then(() => {
+                console.log(`Sent to ${serviceCenter.user.mobile}`);
+              })
+              .catch((error) => {
+                console.log("error");
+              });
+          });
+        }
+        successResponse(200, "OK", serviceCenters, res);
+      }
     } else {
       errorResponse(
         500,
