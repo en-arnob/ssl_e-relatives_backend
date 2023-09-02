@@ -47,7 +47,7 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while Finding data",
-      res
+      res,
     );
   }
 };
@@ -73,7 +73,7 @@ exports.saveResponse = async (req, res) => {
         where: {
           req_no: reqNo,
         },
-      }
+      },
     );
     successResponse(200, "OK", reqNo, res);
   } catch (error) {
@@ -81,7 +81,7 @@ exports.saveResponse = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while Creeating Request",
-      res
+      res,
     );
   }
 };
@@ -114,7 +114,7 @@ exports.getAllResponses = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while Creeating Request",
-      res
+      res,
     );
   }
 };
@@ -131,14 +131,14 @@ exports.markCompleted = async (req, res) => {
         where: {
           req_no: reqNo,
         },
-      }
+      },
     );
     if (markedOnComplete[0] === 0) {
       return errorResponse(
         404,
         "NOT_FOUND",
         "No request found with given reqId",
-        res
+        res,
       );
     }
     successResponse(200, "OK", markedOnComplete, res);
@@ -167,7 +167,34 @@ exports.fetchHistory = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while Finding data",
-      res
+      res,
+    );
+  }
+};
+
+exports.fetchHistoryUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const testHistory = await TestReq.findAll({
+      include: {
+        model: User,
+        as: "service_center",
+        attributes: ["id", "f_name"],
+      },
+      where: {
+        user_id: userId,
+        status: 4,
+      },
+    });
+    if (testHistory) {
+      successResponse(200, "OK", testHistory, res);
+    }
+  } catch (error) {
+    errorResponse(
+      500,
+      "ERROR",
+      error.message || "Some error occurred while Finding data",
+      res,
     );
   }
 };

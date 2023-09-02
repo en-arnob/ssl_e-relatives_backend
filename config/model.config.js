@@ -5,11 +5,11 @@ module.exports = (sequelize, DataTypes) => {
 
   db.role = require("../modules/roles/models/role.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   db.user = require("../modules/users/models/user.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   // ===== Role & User Relationship ===== //
   db.role.hasMany(db.user, {
@@ -27,16 +27,16 @@ module.exports = (sequelize, DataTypes) => {
 
   db.activity = require("../modules/activities/models/activity.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   db.module = require("../modules/modules/models/module.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   db.moduleToActivity =
     require("../modules/moduleToActivity/models/moduleToActivity.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   // ===== Start Activity & Module Relationship ===== //
@@ -57,43 +57,43 @@ module.exports = (sequelize, DataTypes) => {
   db.systemSetting =
     require("../modules/systemSettings/models/setting.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   db.rolePermission =
     require("../modules/rolePermission/models/rolepermission.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.gender =
     require("../modules/genderManagement/models/genderManagement.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.profession =
     require("../modules/professionManagement/models/profession.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.merital =
     require("../modules/maritialStatus/models/maritialstatus.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.country = require("../modules/country/models/country.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   db.state = require("../modules/states/models/state.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   db.city = require("../modules/cities/models/city.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
 
   // ===== Start Country & State Relationship ===== //
@@ -126,7 +126,7 @@ module.exports = (sequelize, DataTypes) => {
   db.instrument =
     require("../modules/instrumentManagement/models/instrument.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   // ===== Start uom & instruments Relationship ===== //
@@ -143,40 +143,40 @@ module.exports = (sequelize, DataTypes) => {
   // ===== End uom & instruments Relationship ===== //
   db.room = require("../modules/room/models/room.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
 
   db.investigationGroup =
     require("../modules/investigationGroup/models/investigationGroup.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   db.investigationCategory =
     require("../modules/investigationCategory/models/investigationCategory.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.instrumentCategory =
     require("../modules/instrumentsCategory/models/instrumentsCategory.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.investigation =
     require("../modules/investigationManagement/models/investigation.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   db.investigationInstrument =
     require("../modules/investigationManagement/models/investigationInstrument.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   db.investigationTest =
     require("../modules/testManagement/models/testManagement.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   // ____________________ Start Investigation Relationship ____________ //
@@ -268,12 +268,12 @@ module.exports = (sequelize, DataTypes) => {
   db.staticContentGroup =
     require("../modules/staticContentGroups/models/staticContentGroup.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   db.staticContent =
     require("../modules/staticContents/models/staticContent.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   // ======= Start staticContentGroups & staticContents relationships ========= //
@@ -292,12 +292,12 @@ module.exports = (sequelize, DataTypes) => {
 
   db.headType = require("../modules/headTypes/models/headType.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   db.accountHead =
     require("../modules/accountHeads/models/accountHead.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   // ======= Start accountHead & headType relationships ========= //
   db.headType.hasMany(db.accountHead, {
@@ -314,11 +314,11 @@ module.exports = (sequelize, DataTypes) => {
 
   db.drug = require("../modules/drug/models/drug.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   db.drugGroup = require("../modules/drugGroup/models/drugGroup.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
 
   // ===== Start Drug & DrugGroup Relationship ===== //
@@ -340,17 +340,17 @@ module.exports = (sequelize, DataTypes) => {
   db.headIdentifier =
     require("../modules/headIdentifier/models/headIdentifier.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   db.headClassification =
     require("../modules/headClassification/models/headClassification.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.headGroup = require("../modules/headGroup/models/headGroup.model")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
 
   // ===== Start headIdentifier & headClassification Relationship ===== //
@@ -402,20 +402,20 @@ module.exports = (sequelize, DataTypes) => {
   db.transectionType =
     require("../modules/transectionType/models/transectionType.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.termConditions =
     require("../modules/termsConditions/models/termsConditions.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   // ===== Service category start ====//
   db.ServiceCategory =
     require("../modules/serviceCategory/models/serviceCategory.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
 
   db.role.hasMany(db.ServiceCategory, {
@@ -434,7 +434,7 @@ module.exports = (sequelize, DataTypes) => {
   db.serviceCategoryList =
     require("../modules/serviceCategoryList/models/serviceCategoryList.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   db.role.hasMany(db.serviceCategoryList, {
     foreignKey: {
@@ -461,7 +461,7 @@ module.exports = (sequelize, DataTypes) => {
 
   db.UserDetails = require("../modules/users/models/userDetails.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
 
   // ===== Start UserDetails & Country Relationship ===== //
@@ -530,7 +530,7 @@ module.exports = (sequelize, DataTypes) => {
   db.bloodReq =
     require("../modules/serviceRequests/bloodReq/models/bloodReq.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   // ===== Start BloodRequest & User Relationship ===== //
   db.user.hasMany(db.bloodReq, {
@@ -582,12 +582,12 @@ module.exports = (sequelize, DataTypes) => {
   // Start Package //
   db.package = require("../modules/package/models/package.model.js")(
     sequelize,
-    DataTypes
+    DataTypes,
   );
   db.packageFeature =
     require("../modules/package/models/packageFeatures.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   db.package.hasMany(db.packageFeature, {
     foreignKey: {
@@ -606,7 +606,7 @@ module.exports = (sequelize, DataTypes) => {
   db.testReq =
     require("../modules/serviceRequests/testReq/models/testReq.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   // ===== Start TestReq & RequestUser Relationship ===== //
   db.user.hasMany(db.testReq, {
@@ -622,6 +622,20 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   // ===== End TestReq & RequestUser Relationship ===== //
+  // ===== Start TestReq & ServiceCenter Relationship ===== //
+  db.user.hasMany(db.testReq, {
+    as: "service_center",
+    foreignKey: {
+      name: "completed_by",
+    },
+  });
+  db.testReq.belongsTo(db.user, {
+    as: "service_center",
+    foreignKey: {
+      name: "completed_by",
+    },
+  });
+  // ===== End TestReq & ServiceCenter Relationship ===== //
 
   // End TestRequest //
 
@@ -629,7 +643,7 @@ module.exports = (sequelize, DataTypes) => {
   db.testDiagnoRes =
     require("../modules/serviceRequests/diagnosisReq/models/diagnosisResponse.model.js")(
       sequelize,
-      DataTypes
+      DataTypes,
     );
   // ===== Start DiagnoResponse & DiagnosticCenter Relationship ===== //
   db.user.hasMany(db.testDiagnoRes, {
