@@ -93,7 +93,7 @@ exports.getAll = async (req, res) => {
       where: {
         id: userId,
       },
-      order: [["id", "DESC"]],
+
       include: [
         {
           model: UserDetails,
@@ -110,6 +110,7 @@ exports.getAll = async (req, res) => {
             [Op.not]: userId,
           },
         },
+        order: [["id", "DESC"]],
         include: [
           {
             model: User,
@@ -178,6 +179,8 @@ exports.getAll = async (req, res) => {
               [Op.not]: userId,
             },
           },
+          order: [["id", "DESC"]],
+
           include: [
             {
               model: User,

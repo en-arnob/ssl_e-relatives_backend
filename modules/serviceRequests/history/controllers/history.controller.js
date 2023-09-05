@@ -19,7 +19,7 @@ exports.getAll = async (req, res) => {
     const reqHistories = await BloodRequest.findAll({
       where: {
         accepted_donor: userId,
-        status: 2,
+        status: 4,
       },
       order: [["id", "DESC"]],
       include: [
@@ -88,7 +88,7 @@ exports.getAllRecieved = async (req, res) => {
     const reqHistories = await BloodRequest.findAll({
       where: {
         user_id: userId,
-        status: 2,
+        status: 4,
       },
       order: [["id", "DESC"]],
       include: [
@@ -158,7 +158,7 @@ exports.getAllCollected = async (req, res) => {
     const reqHistories = await BloodRequest.findAll({
       where: {
         collection_point: serviceCenterId,
-        status: 2,
+        status: 4,
       },
       order: [["id", "DESC"]],
       include: [
@@ -224,7 +224,9 @@ exports.getAllCollected = async (req, res) => {
 exports.saveInvestigations = async (req, res) => {
   try {
     const bodyData = req.body;
+    const currentDate = new Date();
     // console.log(bodyData);
+    const donorId = bodyData.donorId;
 
     const find = await BloodRequest.findOne({
       where: {
@@ -243,11 +245,22 @@ exports.saveInvestigations = async (req, res) => {
       const updated = await BloodRequest.update(
         {
           investigation_ids: bodyData.invsCsv,
+          status: 4,
         },
         {
           where: {
             req_no: bodyData.reqNo,
             accepted_donor: bodyData.donorId,
+          },
+        },
+      );
+      const donateDateUpdate = await UserDetails.update(
+        {
+          last_blood_donate: currentDate,
+        },
+        {
+          where: {
+            user_id: donorId,
           },
         },
       );
