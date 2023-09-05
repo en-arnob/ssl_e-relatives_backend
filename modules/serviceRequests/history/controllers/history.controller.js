@@ -264,7 +264,7 @@ exports.saveInvestigations = async (req, res) => {
           },
         },
       );
-      const message = `Thanks for your support. Please drink more water for recover your blood soon. Don't donate blood in next 3 months.`;
+      const message = `Thanks for your support. Please drink more water for recover your blood soon. Don't donate blood in next 3 months. Website: https://e-relatives.com`;
       const sentMessage = await axios.post(
         `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${find?.donor?.mobile}&message=${message}`,
       );

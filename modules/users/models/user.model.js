@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     registration_no: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 100001,
+      defaultValue: 1000000000001,
     },
 
     f_name: {

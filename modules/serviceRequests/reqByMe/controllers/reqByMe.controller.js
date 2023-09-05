@@ -17,6 +17,9 @@ exports.getAll = async (req, res) => {
     const myReqs = await BloodRequest.findAll({
       where: {
         user_id: userId,
+        status: {
+          [Op.ne]: 4,
+        },
       },
       order: [["id", "DESC"]],
       include: [

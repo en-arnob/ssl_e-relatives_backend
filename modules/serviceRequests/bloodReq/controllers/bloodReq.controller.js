@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
       1000000000 +
         Math.random() *
           9000000000 *
-          Math.floor(1000000000 + Math.random() * 9000000000 * Date.now())
+          Math.floor(1000000000 + Math.random() * 9000000000 * Date.now()),
     )
       .toString()
       .substring(2, 10);
@@ -126,7 +126,7 @@ exports.create = async (req, res) => {
     }
     // const message = `Dear Blood Donor, ${bloodReqData.bg} needed in collection point: ${colPoint?.address_1}`;
 
-    const message = `Hello! Someone requested for ${
+    const message = `Dear, Someone requested for ${
       parseInt(bloodReqData.bg) === 1
         ? "(A Positive)"
         : parseInt(bloodReqData.bg) === 2
@@ -146,14 +146,16 @@ exports.create = async (req, res) => {
         : ""
     } Blood at ${colPoint?.f_name}, ${
       colPoint?.address_1
-    } for ${dateFormatter.formatDate(dateOnly)}, ${bloodReqData?.time}`;
+    } for ${dateFormatter.formatDate(dateOnly)}, ${
+      bloodReqData?.time
+    }. Website: https://e-relatives.com`;
 
     if (matchedDonors) {
       await matchedDonors.forEach((donor) => {
         // console.log(donor);
         axios
           .post(
-            `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${donor.user.mobile}&message=${message}`
+            `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${donor.user.mobile}&message=${message}`,
           )
           .then(() => {
             console.log(`Sent to ${donor.mobile}`);
@@ -173,7 +175,7 @@ exports.create = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Finding User",
-      res
+      res,
     );
   }
 };
@@ -219,7 +221,7 @@ exports.getColPoints = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Finding User",
-      res
+      res,
     );
   }
 };
