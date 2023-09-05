@@ -88,7 +88,7 @@ exports.saveResponse = async (req, res) => {
       // console.log(totalCost);
       const totalCostDirectVariable = totalCost[0]?.total_amount;
       // console.log(totalCostDirectVariable);
-      const message = `A New Bill Offered with Tk ${totalCostDirectVariable} Please check and accept for further procedure. This bill will be valid for 3 days.`;
+      const message = `A New Bill Offered with Tk ${totalCostDirectVariable} Please check and accept for further procedure. This bill will be valid for 3 days. Website: https://e-relatives.com`;
       const testReq = await TestReq.findOne({
         where: {
           req_no: reqNo,
@@ -196,7 +196,7 @@ exports.markCompleted = async (req, res) => {
     //   },
     // });
 
-    const message = `Specimen received. Your Investigation No: ${reqNo} Report Delivery schedule will updated soon`;
+    const message = `Specimen received. Your Investigation No: ${reqNo} Report Delivery schedule will updated soon. Website: https://e-relatives.com`;
     if (testReq) {
       axios
         .post(
