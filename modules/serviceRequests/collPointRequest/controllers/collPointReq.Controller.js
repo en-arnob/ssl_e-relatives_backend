@@ -8,17 +8,19 @@ const { Op, where } = require("sequelize");
 
 exports.getAll = async (req, res) => {
   const { collectionPoint } = req.params;
-  console.log(collectionPoint);
+  // console.log(collectionPoint);
 
   try {
     const data = await BloodRequest.findAll({
       where: {
         collection_point: collectionPoint,
-        status: 1,
+        [Op.or]: [{ status: 1 }, { status: 2 }],
         accepted_donor: {
           [Op.not]: null,
         },
+        investigation_ids: null,
       },
+      order: [["id", "DESC"]],
       include: [
         {
           model: User,
@@ -44,7 +46,7 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while finding data ",
-      res
+      res,
     );
   }
 };
@@ -52,7 +54,7 @@ exports.getAll = async (req, res) => {
 exports.editStatusByDonor = async (req, res) => {
   const { donor_id } = req.params;
   const body = req.body;
-  console.log(body);
+  // console.log(body);
   const currentDate = new Date();
   try {
     const data = await User.findOne({
@@ -70,18 +72,18 @@ exports.editStatusByDonor = async (req, res) => {
             accepted_donor: donor_id,
             req_no: body.req_no,
           },
-        }
-      );
-      const donateDateUpdate = await UserDetails.update(
-        {
-          last_blood_donate: currentDate,
         },
-        {
-          where: {
-            user_id: donor_id,
-          },
-        }
       );
+      // const donateDateUpdate = await UserDetails.update(
+      //   {
+      //     last_blood_donate: currentDate,
+      //   },
+      //   {
+      //     where: {
+      //       user_id: donor_id,
+      //     },
+      //   },
+      // );
       if (updateData[0] === 0) {
         return errorResponse(404, "NOT_FOUND", "No data found", res);
       }
@@ -92,7 +94,7 @@ exports.editStatusByDonor = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while finding data",
-      res
+      res,
     );
   }
 };

@@ -93,6 +93,7 @@ exports.getAll = async (req, res) => {
       where: {
         id: userId,
       },
+
       include: [
         {
           model: UserDetails,
@@ -109,6 +110,7 @@ exports.getAll = async (req, res) => {
             [Op.not]: userId,
           },
         },
+        order: [["id", "DESC"]],
         include: [
           {
             model: User,
@@ -159,7 +161,7 @@ exports.getAll = async (req, res) => {
       const myCityId = user.user_detail.city_id;
       // console.log(myCityId);
       const cityFilteredBReqs = bloodRequests.filter(
-        (item) => item.col_point.user_detail.city_id === myCityId
+        (item) => item.col_point.user_detail.city_id === myCityId,
       );
       successResponse(200, "OK", cityFilteredBReqs, res);
     } else {
@@ -177,6 +179,8 @@ exports.getAll = async (req, res) => {
               [Op.not]: userId,
             },
           },
+          order: [["id", "DESC"]],
+
           include: [
             {
               model: User,
@@ -227,7 +231,7 @@ exports.getAll = async (req, res) => {
         const myCityId = user.user_detail.city_id;
         // console.log(myCityId);
         const cityFilteredBReqs = bloodRequests.filter(
-          (item) => item.col_point.user_detail.city_id === myCityId
+          (item) => item.col_point.user_detail.city_id === myCityId,
         );
         successResponse(200, "OK", cityFilteredBReqs, res);
         // successResponse(200, "OK", user, res);
@@ -240,7 +244,7 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Finding data",
-      res
+      res,
     );
   }
 };
@@ -260,7 +264,7 @@ exports.accept = async (req, res) => {
           where: {
             id: reqId,
           },
-        }
+        },
       );
       const acceptedReqData = await BloodRequest.findByPk(reqId, {
         include: [
@@ -284,24 +288,24 @@ exports.accept = async (req, res) => {
 
       const message1 = `Your Blood Request No. is ${acceptedReqData?.req_no} and Donor is Mr/Mrs ${acceptedReqData?.donor?.f_name}, Cell No. ${acceptedReqData?.donor?.mobile} . Please schedule with him/her for the donation`;
       const sentMessage1 = await axios.post(
-        `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.req_by?.mobile}&message=${message1}`
+        `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.req_by?.mobile}&message=${message1}`,
       );
       if (sentMessage1) {
         const message2 = `Please remember: The donor is helping you to save life. Please entertain him/her with some drinks and be conscious about his/her transport cost.`;
 
         const sentMessage2 = await axios.post(
-          `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.req_by?.mobile}&message=${message2}`
+          `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.req_by?.mobile}&message=${message2}`,
         );
         // console.log(request);
       }
       const message3 = `Your Donation No. is ${acceptedReqData?.req_no}, You are helping to save someone's life. You are a real hero. Please don't demand any kind of benefit from the receiver`;
       const sentMessage3 = await axios.post(
-        `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.donor?.mobile}&message=${message3}`
+        `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.donor?.mobile}&message=${message3}`,
       );
       if (sentMessage3) {
         const message4 = `Mr/Mrs. ${acceptedReqData?.req_by?.f_name} made a schedule to collect blood from Mr/Mrs. ${acceptedReqData?.donor?.f_name}. The Donation No. is ${acceptedReqData?.req_no}. Please co-operate them.`;
         const sentMessage4 = await axios.post(
-          `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.col_point?.mobile}&message=${message4}`
+          `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${acceptedReqData?.col_point?.mobile}&message=${message4}`,
         );
         if (sentMessage4) {
           successResponse(200, "OK", acceptedReqData, res);
@@ -313,7 +317,7 @@ exports.accept = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Finding data",
-      res
+      res,
     );
   }
 };

@@ -4,6 +4,8 @@ require("dotenv").config();
 const db = require("../../../../config/database.config");
 const axios = require("axios");
 const TestReq = db.model.testReq;
+const User = db.model.user;
+const UserDetails = db.model.UserDetails;
 
 exports.create = async (req, res) => {
   const testdata = req.body;
@@ -12,7 +14,7 @@ exports.create = async (req, res) => {
       1000000000 +
         Math.random() *
           9000000000 *
-          Math.floor(1000000000 + Math.random() * 9000000000 * Date.now())
+          Math.floor(1000000000 + Math.random() * 9000000000 * Date.now()),
     )
       .toString()
       .substring(2, 10);
@@ -27,7 +29,51 @@ exports.create = async (req, res) => {
         select_type: testdata.selectionType,
         investigation_ids: invCsv,
       });
-      newTestReq && successResponse(200, "OK", testdata, res);
+
+      // here sms send -> first find user with city id from testdata.userId. Then find service centers with that cityId and extract their phone numbers and send them sms
+
+      let user = await UserDetails.findOne({
+        where: {
+          user_id: testdata.userId,
+        },
+        attributes: ["user_id", "city_id"],
+      });
+
+      if (user) {
+        let userCityId = user.city_id;
+        let serviceCenters = await UserDetails.findAll({
+          where: {
+            city_id: userCityId,
+          },
+          include: [
+            {
+              model: User,
+              where: {
+                role_id: 13,
+              },
+              attributes: ["role_id", "f_name", "mobile"],
+            },
+          ],
+        });
+        if (serviceCenters) {
+          const message =
+            "Someone submitted a Test List. Please Prepare a Bill (Please submit your bill by 30 Minutes)";
+
+          await serviceCenters.forEach((serviceCenter) => {
+            axios
+              .post(
+                `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${serviceCenter.user.mobile}&message=${message}`,
+              )
+              .then(() => {
+                console.log(`Sent to ${serviceCenter.user.mobile}`);
+              })
+              .catch((error) => {
+                console.log("error");
+              });
+          });
+        }
+        successResponse(200, "OK", serviceCenters, res);
+      }
     } else if (parseInt(testdata.selectionType) === 2 && testdata.file) {
       const newTestReq = await TestReq.create({
         user_id: testdata.userId,
@@ -35,13 +81,56 @@ exports.create = async (req, res) => {
         select_type: testdata.selectionType,
         inv_image: testdata.file,
       });
-      newTestReq && successResponse(200, "OK", testdata, res);
+      // here sms send -> first find user with city id from testdata.userId. Then find service centers with that cityId and extract their phone numbers and send them sms
+      let user = await UserDetails.findOne({
+        where: {
+          user_id: testdata.userId,
+        },
+        attributes: ["user_id", "city_id"],
+      });
+
+      if (user) {
+        let userCityId = user.city_id;
+        let serviceCenters = await UserDetails.findAll({
+          where: {
+            city_id: userCityId,
+          },
+          include: [
+            {
+              model: User,
+              where: {
+                role_id: 13,
+              },
+              attributes: ["role_id", "f_name", "mobile"],
+            },
+          ],
+        });
+        if (serviceCenters) {
+          // console.log(serviceCenters);
+          const message =
+            "Someone submitted a Test List. Please Prepare a Bill (Please submit your bill by 30 Minutes)";
+
+          await serviceCenters.forEach((serviceCenter) => {
+            axios
+              .post(
+                `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${serviceCenter.user.mobile}&message=${message}`,
+              )
+              .then(() => {
+                console.log(`Sent to ${serviceCenter.user.mobile}`);
+              })
+              .catch((error) => {
+                console.log("error");
+              });
+          });
+        }
+        successResponse(200, "OK", serviceCenters, res);
+      }
     } else {
       errorResponse(
         500,
         "ERROR",
         "Some error occurred while Creating Request, Please try providing all information",
-        res
+        res,
       );
     }
   } catch (err) {
@@ -49,7 +138,7 @@ exports.create = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Creeating Request",
-      res
+      res,
     );
   }
 };
@@ -64,7 +153,7 @@ exports.uploadInvImage = async (req, res) => {
       "ERROR",
       err.message ||
         "Some error occurred while Finding Users By Date_of_Birth.",
-      res
+      res,
     );
   }
 };
@@ -77,7 +166,7 @@ exports.getAll = async (req, res) => {
       where: {
         user_id: userId,
       },
-      order: [["createdAt", "DESC"]],
+      order: [["id", "DESC"]],
     });
     myReqs && successResponse(200, "OK", myReqs, res);
   } catch (error) {
@@ -85,7 +174,7 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while fetching data",
-      res
+      res,
     );
   }
 };
@@ -102,14 +191,14 @@ exports.cancelRequest = async (req, res) => {
         where: {
           req_no: reqId,
         },
-      }
+      },
     );
     if (del[0] === 0) {
       return errorResponse(
         404,
         "NOT_FOUND",
         "No request found with given reqId",
-        res
+        res,
       );
     }
     successResponse(200, "OK", del, res);
@@ -118,7 +207,7 @@ exports.cancelRequest = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while deleting request",
-      res
+      res,
     );
   }
 };
@@ -134,14 +223,14 @@ exports.confirm = async (req, res) => {
         where: {
           req_no: reqId,
         },
-      }
+      },
     );
     if (confirmationUpdate[0] === 0) {
       return errorResponse(
         404,
         "NOT_FOUND",
         "No request found with given reqId",
-        res
+        res,
       );
     }
     successResponse(200, "OK", confirmationUpdate, res);
@@ -150,7 +239,7 @@ exports.confirm = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while confirming request",
-      res
+      res,
     );
   }
 };

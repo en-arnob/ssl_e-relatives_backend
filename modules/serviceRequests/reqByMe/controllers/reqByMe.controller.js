@@ -18,6 +18,7 @@ exports.getAll = async (req, res) => {
       where: {
         user_id: userId,
       },
+      order: [["id", "DESC"]],
       include: [
         {
           model: User,
@@ -73,7 +74,7 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Finding data",
-      res
+      res,
     );
   }
 };
@@ -107,7 +108,7 @@ exports.getDonors = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Finding data",
-      res
+      res,
     );
   }
 };
@@ -123,7 +124,7 @@ exports.cancelRequest = async (req, res) => {
         where: {
           req_no: reqId,
         },
-      }
+      },
     );
     if (data[0] === 0) {
       return errorResponse(404, "NOT_FOUND", "No data found", res);
@@ -134,7 +135,7 @@ exports.cancelRequest = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Finding data",
-      res
+      res,
     );
   }
 };

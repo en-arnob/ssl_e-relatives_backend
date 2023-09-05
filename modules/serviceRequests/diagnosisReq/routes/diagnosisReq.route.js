@@ -11,19 +11,25 @@ module.exports = (app) => {
   //fetch all diagnosis center response by test request no
   diagnosisReqRouter.get(
     "/get-responses/:reqNo",
-    diagnosisReqController.getAllResponses
+    diagnosisReqController.getAllResponses,
   );
 
   //mark completed by diagnostic center
   diagnosisReqRouter.put(
     "/mark-as-completed/:reqNo/:diagnoCenterId",
-    diagnosisReqController.markCompleted
+    diagnosisReqController.markCompleted,
   );
 
   // get diagnosis test completed histories
   diagnosisReqRouter.get(
     "/history/:diagnoCenterId",
-    diagnosisReqController.fetchHistory
+    diagnosisReqController.fetchHistory,
   );
+  //get diagnostic test completed history for user
+  diagnosisReqRouter.get(
+    "/history/user/:userId",
+    diagnosisReqController.fetchHistoryUser,
+  );
+
   app.use("/api/services/diagnosis-reqs", diagnosisReqRouter);
 };
