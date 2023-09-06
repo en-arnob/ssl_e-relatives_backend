@@ -99,6 +99,11 @@ exports.getAllRecieved = async (req, res) => {
         },
         {
           model: User,
+          as: "donor",
+          attributes: ["id", "f_name", "mobile", "email", "image"],
+        },
+        {
+          model: User,
           as: "col_point",
           attributes: [
             "id",
@@ -165,6 +170,11 @@ exports.getAllCollected = async (req, res) => {
         {
           model: User,
           as: "req_by",
+          attributes: ["id", "f_name", "mobile", "email", "image"],
+        },
+        {
+          model: User,
+          as: "donor",
           attributes: ["id", "f_name", "mobile", "email", "image"],
         },
         {

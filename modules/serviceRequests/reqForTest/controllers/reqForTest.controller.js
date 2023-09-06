@@ -6,7 +6,7 @@ const Investigation = db.model.investigation;
 exports.getAllName = async (req, res) => {
   try {
     const investigations = await Investigation.findAll({
-      attributes: ["id", "name", "code"],
+      attributes: ["id", "name", "code", "detailed_name"],
     });
     successResponse(200, "SUCCESS", investigations, res);
   } catch (err) {
