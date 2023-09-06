@@ -16,6 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    discount_type: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    discount_value: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     status: {
       type: DataTypes.INTEGER,
       allowNull: true,

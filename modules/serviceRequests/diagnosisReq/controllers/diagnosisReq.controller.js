@@ -55,7 +55,11 @@ exports.getAll = async (req, res) => {
 
 exports.saveResponse = async (req, res) => {
   const { reqNo } = req.params;
-  const data = req.body;
+  const body = req.body;
+  const data = body.table;
+  // console.log(body);
+  const discountType = req.body.discountType;
+  const discountValue = req.body.discountValue;
 
   try {
     for (const obj of data) {
@@ -64,6 +68,8 @@ exports.saveResponse = async (req, res) => {
         service_center_id: obj.serviceCenterId,
         investigation: obj.investigation,
         cost: obj.cost,
+        discount_type: discountType,
+        discount_value: discountValue,
       });
     }
     const updateRequest = await TestReq.update(
@@ -151,6 +157,35 @@ exports.getAllResponses = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while Creeating Request",
+      res,
+    );
+  }
+};
+
+exports.getSavedResponse = async (req, res) => {
+  const { reqNo, serviceCenterId } = req.params;
+  try {
+    const responses = await TestDiagnoResponse.findAll({
+      include: [
+        {
+          model: Investigation,
+          as: "investigationDetails",
+          attributes: ["id", "name", "detailed_name"],
+        },
+      ],
+      where: {
+        req_no: reqNo,
+        service_center_id: serviceCenterId,
+      },
+    });
+    if (responses) {
+      successResponse(200, "OK", responses, res);
+    }
+  } catch (e) {
+    errorResponse(
+      500,
+      "ERROR",
+      e.message || "Some error occurred while Creeating Request",
       res,
     );
   }

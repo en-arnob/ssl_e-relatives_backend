@@ -14,6 +14,12 @@ module.exports = (app) => {
     diagnosisReqController.getAllResponses,
   );
 
+  //fetch submitted response to render for service center
+  diagnosisReqRouter.get(
+    "/get-saved-response/:reqNo/:serviceCenterId",
+    diagnosisReqController.getSavedResponse,
+  );
+
   //mark completed by diagnostic center
   diagnosisReqRouter.put(
     "/mark-as-completed/:reqNo/:diagnoCenterId",
