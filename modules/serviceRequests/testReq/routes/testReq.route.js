@@ -10,7 +10,7 @@ module.exports = (app) => {
   testReqRouter.post(
     "/upload-image",
     invImageUploadMulter,
-    testReqController.uploadInvImage
+    testReqController.uploadInvImage,
   );
 
   // fetch all requests by me for test
@@ -21,6 +21,9 @@ module.exports = (app) => {
 
   // confirm testDiagnostic Response
   testReqRouter.put("/confirm/:reqId", testReqController.confirm);
+
+  // get all serviceCenters
+  testReqRouter.get("/service", testReqController.getServiceCenters);
 
   app.use("/api/services/request/test", testReqRouter);
 };
