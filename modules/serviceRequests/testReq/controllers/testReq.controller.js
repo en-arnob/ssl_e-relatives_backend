@@ -27,6 +27,8 @@ exports.create = async (req, res) => {
         user_id: testdata.userId,
         req_no: reqNo,
         select_type: testdata.selectionType,
+        req_type: testdata.reqType,
+        service_center_id: testdata.serviceCenter,
         investigation_ids: invCsv,
       });
 
@@ -79,6 +81,8 @@ exports.create = async (req, res) => {
         user_id: testdata.userId,
         req_no: reqNo,
         select_type: testdata.selectionType,
+        req_type: testdata.reqType,
+        service_center_id: testdata.serviceCenter,
         inv_image: testdata.file,
       });
       // here sms send -> first find user with city id from testdata.userId. Then find service centers with that cityId and extract their phone numbers and send them sms
@@ -174,6 +178,21 @@ exports.getAll = async (req, res) => {
       500,
       "ERROR",
       error.message || "Some error occurred while fetching data",
+      res,
+    );
+  }
+};
+
+exports.getServiceCenters = async (req, res) => {
+  console.log("Hello");
+  try {
+    const serviceCenters = await User.findAll({});
+    serviceCenters && successResponse(200, "OK", serviceCenters, res);
+  } catch (e) {
+    errorResponse(
+      500,
+      "ERROR",
+      e.message || "Some error occurred while fetching data",
       res,
     );
   }

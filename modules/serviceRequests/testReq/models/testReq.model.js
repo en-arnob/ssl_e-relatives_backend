@@ -7,10 +7,19 @@ module.exports = (sequelize, DataTypes) => {
     req_no: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     select_type: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    req_type: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    service_center_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     inv_image: {
       type: DataTypes.TEXT,

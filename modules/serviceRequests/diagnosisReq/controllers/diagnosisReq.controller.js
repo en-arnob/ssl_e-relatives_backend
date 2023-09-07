@@ -17,7 +17,7 @@ exports.getAll = async (req, res) => {
       where: {
         id: diagnoAccId,
       },
-      order: [["id", "DESC"]],
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: UserDetails,
@@ -38,6 +38,10 @@ exports.getAll = async (req, res) => {
       },
       where: {
         "$test_requester.user_detail.city_id$": diagnoCity,
+        [Op.or]: [
+          { service_center_id: null },
+          { service_center_id: diagnoAccId },
+        ],
       },
     });
     if (testRequests) {
