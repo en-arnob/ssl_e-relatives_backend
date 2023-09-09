@@ -1,4 +1,3 @@
-const { where } = require("sequelize");
 const db = require("../../../config/database.config");
 const Package = db.model.package;
 const PackageFeature = db.model.packageFeature;
