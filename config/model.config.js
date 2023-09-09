@@ -675,5 +675,15 @@ module.exports = (sequelize, DataTypes) => {
   // ===== End DiagnoResponse & Investigation Relationship ===== //
   // End DiagnoResponse //
 
+  // Start FileUploadType //
+
+  db.fileUpType =
+    require("../modules/fileUploadType/models/fileUploadType.model")(
+      sequelize,
+      DataTypes,
+    );
+
+  // End FileUploadType //
+
   return db;
 };

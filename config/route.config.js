@@ -11,7 +11,7 @@ module.exports = (app) => {
   require("../modules/moduleToActivity/routes/moduleToActivity.route.js")(app);
 
   require("../modules/staticContentGroups/routes/staticContentGroup.route.js")(
-    app
+    app,
   );
   require("../modules/staticContents/routes/staticContent.route.js")(app);
 
@@ -26,13 +26,13 @@ module.exports = (app) => {
   require("../modules/cities/routes/city.route.js")(app);
   require("../modules/room/routes/room.route.js")(app);
   require("../modules/investigationGroup/routes/investigationGroup.route.js")(
-    app
+    app,
   );
   require("../modules/investigationCategory/routes/investigationCategory.route.js")(
-    app
+    app,
   );
   require("../modules/instrumentsCategory/routes/instrumentsCategory.route.js")(
-    app
+    app,
   );
 
   require("../modules/headTypes/routes/headType.route.js")(app);
@@ -45,32 +45,33 @@ module.exports = (app) => {
 
   require("../modules/headIdentifier/routes/headIdentifier.route.js")(app);
   require("../modules/headClassification/routes/headClassification.route.js")(
-    app
+    app,
   );
   require("../modules/headGroup/routes/headGroup.route.js")(app);
 
   require("../modules/investigationManagement/routes/investigation.route.js")(
-    app
+    app,
   );
   require("../modules/testManagement/routes/testManagement.route.js")(app);
   require("../modules/termsConditions/routes/termsConditions.route.js")(app);
   require("../modules/serviceCategory/routes/serviceCategory.route.js")(app);
   require("../modules/serviceCategoryList/routes/serviceCategoryList.route.js")(
-    app
+    app,
   );
   require("../modules/serviceRequests/bloodReq/routes/bloodReq.route.js")(app);
   require("../modules/serviceRequests/reqByMe/routes/reqByMe.route.js")(app);
   require("../modules/serviceRequests/reqToMe/routes/reqToMe.route.js")(app);
   require("../modules/serviceRequests/collPointRequest/routes/collPointReq.route.js")(
-    app
+    app,
   );
   require("../modules/serviceRequests/reqForTest/routes/reqForTest.routes.js")(
-    app
+    app,
   );
   require("../modules/serviceRequests/history/routes/history.route.js")(app);
   require("../modules/package/routes/package.route.js")(app);
   require("../modules/serviceRequests/testReq/routes/testReq.route.js")(app);
   require("../modules/serviceRequests/diagnosisReq/routes/diagnosisReq.route.js")(
-    app
+    app,
   );
+  require("../modules/fileUploadType/routes/fileUploadType.route.js")(app);
 };
