@@ -19,6 +19,15 @@ app.use(errorHandler);
 
 app.use(express.static("uploads"));
 app.use(express.static("xrayfile"));
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//   res.header("Access-Control-Allow-Headers", "Content-Type");
+//   res.header("Access-Control-Max-Age", "3600");
+//
+//   next();
+// });
 
 // database connectivity
 db.sequelize.sync().then(() => {

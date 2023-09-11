@@ -74,4 +74,5 @@ module.exports = (app) => {
     app,
   );
   require("../modules/fileUploadType/routes/fileUploadType.route.js")(app);
+  require("../modules/healthManager/routes/payment.gateway.router.js")(app);
 };
