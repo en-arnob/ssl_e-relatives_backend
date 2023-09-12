@@ -11,5 +11,8 @@ module.exports = (app) => {
   // update package
   packageRouter.put("/:id", packageController.update);
 
+  // get package by id
+  packageRouter.get("/:id", packageController.getById);
+
   app.use("/api/package-management", packageRouter);
 };

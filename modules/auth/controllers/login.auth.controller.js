@@ -19,13 +19,17 @@ exports.signin = async (req, res) => {
     } else {
       const userQuery = await User.findOne({
         // where: { mobile: userData.mobile, otp_verified: 1 },
-        where: { mobile: userData.mobile },
+
         include: [
           {
             model: Role,
             attributes: ["name", "info"],
           },
         ],
+        where: {
+          mobile: userData.mobile,
+          "$role.status$": 1,
+        },
       });
       if (!userQuery) {
         return res.status(404).send({
@@ -38,7 +42,7 @@ exports.signin = async (req, res) => {
 
         var passwordIsValid = bcrypt.compareSync(
           userData.password,
-          userQuery.password
+          userQuery.password,
         );
 
         if (!passwordIsValid) {
@@ -79,7 +83,7 @@ exports.signin = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while creating the User.",
-      res
+      res,
     );
   }
 };
