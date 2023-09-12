@@ -62,8 +62,8 @@ exports.saveResponse = async (req, res) => {
   const body = req.body;
   const data = body.table;
   // console.log(body);
-  const discountType = req.body.discountType;
-  const discountValue = req.body.discountValue;
+  const discountType = parseInt(req.body.discountType);
+  const discountValue = parseInt(req.body.discountValue);
 
   try {
     for (const obj of data) {
@@ -97,8 +97,29 @@ exports.saveResponse = async (req, res) => {
     if (totalCost) {
       // console.log(totalCost);
       const totalCostDirectVariable = totalCost[0]?.total_amount;
+
+      console.log(totalCostDirectVariable);
+
+      function getDiscountedPrice(cost, discountType, discountValue) {
+        if (discountType === 1) {
+          return (
+            parseInt(cost) - parseInt(cost) * (parseInt(discountValue) / 100)
+          );
+        } else if (discountType === 2) {
+          return parseInt(cost) - parseInt(discountValue);
+        } else {
+          return totalCostDirectVariable;
+        }
+      }
+
+      const priceWithDiscount = getDiscountedPrice(
+        totalCostDirectVariable,
+        discountType,
+        discountValue,
+      );
+      console.log(priceWithDiscount);
       // console.log(totalCostDirectVariable);
-      const message = `A New Bill Offered with Tk ${totalCostDirectVariable} Please check and accept for further procedure. This bill will be valid for 3 days. Website: https://e-relatives.com`;
+      const message = `A New Bill Offered with Tk ${priceWithDiscount} Please check and accept for further procedure. This bill will be valid for 3 days. Website: https://e-relatives.com`;
       const testReq = await TestReq.findOne({
         where: {
           req_no: reqNo,

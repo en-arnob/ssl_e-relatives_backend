@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while creating the User Role.",
-      res
+      res,
     );
   }
 };
@@ -47,7 +47,7 @@ exports.findAll = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while finding Users Role.",
-      res
+      res,
     );
   }
 };
@@ -75,7 +75,7 @@ exports.findOne = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while creating the Post.",
-      res
+      res,
     );
   }
 };
@@ -121,7 +121,7 @@ exports.update = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Updateing the User Role.",
-      res
+      res,
     );
   }
 };
@@ -151,7 +151,7 @@ exports.delete = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Deleting User Role.",
-      res
+      res,
     );
   }
 };
@@ -174,7 +174,7 @@ exports.findByPriority = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while finding Users Role.",
-      res
+      res,
     );
   }
 };
@@ -186,6 +186,7 @@ exports.findByPriorityFiveSix = async (req, res) => {
         priority: {
           [Op.in]: [5, 6],
         },
+        status: 1,
       },
     });
     if (query.length > 0) {
@@ -198,7 +199,7 @@ exports.findByPriorityFiveSix = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while finding Users Role.",
-      res
+      res,
     );
   }
 };

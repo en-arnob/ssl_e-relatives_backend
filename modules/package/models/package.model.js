@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.STRING,
     },
+    duration: {
+      type: DataTypes.STRING,
+    },
+    status: {
+      type: DataTypes.INTEGER,
+    },
   });
   return Package;
 };

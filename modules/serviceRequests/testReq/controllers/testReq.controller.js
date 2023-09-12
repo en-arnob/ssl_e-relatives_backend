@@ -59,7 +59,7 @@ exports.create = async (req, res) => {
         });
         if (serviceCenters) {
           const message =
-            "Someone submitted a Test List. Please Prepare a Bill (Please submit your bill by 30 Minutes) Website: https://e-relatives.com";
+            "Someone Submitted a Test List. Please prepare a bill and submit by 60 minutes. Website: https://e-relatives.com";
 
           await serviceCenters.forEach((serviceCenter) => {
             axios
@@ -112,7 +112,7 @@ exports.create = async (req, res) => {
         if (serviceCenters) {
           // console.log(serviceCenters);
           const message =
-            "Someone submitted a Test List. Please Prepare a Bill (Please submit your bill by 30 Minutes). Website: https://e-relatives.com";
+            "Someone Submitted a Test List. Please prepare a bill and submit by 60 minutes. Website: https://e-relatives.com";
 
           await serviceCenters.forEach((serviceCenter) => {
             axios

@@ -11,6 +11,8 @@ exports.create = async (req, res) => {
     const newPackage = await Package.create({
       name: packageData.packageName,
       price: packageData.price,
+      duration: packageData.duration,
+      status: packageData.status,
     });
     const packId = newPackage?.id;
     const featuresArray = packageData?.features;
@@ -104,6 +106,8 @@ exports.update = async (req, res) => {
         {
           name: packageData.packageName,
           price: packageData.price,
+          duration: packageData.duration,
+          status: packageData.status,
         },
         {
           where: {
@@ -137,6 +141,21 @@ exports.update = async (req, res) => {
       500,
       "ERROR",
       err.message || "Some error occurred while Creating Package",
+      res,
+    );
+  }
+};
+
+exports.getById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const packageData = await Package.findByPk(id);
+    successResponse(200, "OK", packageData, res);
+  } catch (e) {
+    errorResponse(
+      500,
+      "ERROR",
+      e.message || "Some error occurred while Creating Package",
       res,
     );
   }

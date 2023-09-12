@@ -124,7 +124,6 @@ exports.create = async (req, res) => {
         collection_point: bloodReqData.collectionPoint,
       });
     }
-    // const message = `Dear Blood Donor, ${bloodReqData.bg} needed in collection point: ${colPoint?.address_1}`;
 
     const message = `Dear, Someone requested for ${
       parseInt(bloodReqData.bg) === 1
@@ -144,11 +143,12 @@ exports.create = async (req, res) => {
         : parseInt(bloodReqData.bg) === 8
         ? "(AB Negative)"
         : ""
-    } Blood at ${colPoint?.f_name}, ${
+    } Blood at ${colPoint?.f_name} , ${
       colPoint?.address_1
-    } for ${dateFormatter.formatDate(dateOnly)}, ${
+    } for ${dateFormatter.formatDate(dateOnly)} , ${
       bloodReqData?.time
-    }. Website: https://e-relatives.com`;
+    } . Website: https://e-relatives.com`;
+    console.log(message);
 
     if (matchedDonors) {
       await matchedDonors.forEach((donor) => {
