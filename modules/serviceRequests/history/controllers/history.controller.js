@@ -255,6 +255,7 @@ exports.saveInvestigations = async (req, res) => {
       const updated = await BloodRequest.update(
         {
           investigation_ids: bodyData.invsCsv,
+          investigation_image: bodyData.invImage,
           status: 4,
         },
         {
