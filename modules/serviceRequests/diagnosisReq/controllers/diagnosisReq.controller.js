@@ -98,9 +98,9 @@ exports.saveResponse = async (req, res) => {
       // console.log(totalCost);
       const totalCostDirectVariable = totalCost[0]?.total_amount;
 
-      console.log(totalCostDirectVariable);
+      // console.log(totalCostDirectVariable);
 
-      function getDiscountedPrice(cost, discountType, discountValue) {
+      function getDiscountedPriceB(cost, discountType, discountValue) {
         if (discountType === 1) {
           return (
             parseInt(cost) - parseInt(cost) * (parseInt(discountValue) / 100)
@@ -108,16 +108,16 @@ exports.saveResponse = async (req, res) => {
         } else if (discountType === 2) {
           return parseInt(cost) - parseInt(discountValue);
         } else {
-          return totalCostDirectVariable;
+          return cost;
         }
       }
 
-      const priceWithDiscount = getDiscountedPrice(
+      const priceWithDiscount = getDiscountedPriceB(
         totalCostDirectVariable,
         discountType,
         discountValue,
       );
-      console.log(priceWithDiscount);
+      // console.log(priceWithDiscount);
       // console.log(totalCostDirectVariable);
       const message = `A New Bill Offered with Tk ${priceWithDiscount} Please check and accept for further procedure. This bill will be valid for 3 days. Website: https://e-relatives.com`;
       const testReq = await TestReq.findOne({
