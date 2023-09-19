@@ -3,7 +3,10 @@ const paymentGatewayController = require("../controllers/payment.gateway.control
 
 module.exports = (app) => {
   // pay now
-  paymentGatewayRouter.get("/paynow", paymentGatewayController.paynow);
+  paymentGatewayRouter.post("/paynow", paymentGatewayController.paynow);
+
+  // ipn
+  paymentGatewayRouter.post("/ipn", paymentGatewayController.ipn);
 
   app.use("/api/payment-gateway/ssl", paymentGatewayRouter);
 };
