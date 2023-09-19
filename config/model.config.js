@@ -685,5 +685,18 @@ module.exports = (sequelize, DataTypes) => {
 
   // End FileUploadType //
 
+  db.healthMan = require("../modules/healthManager/models/healthMan.model")(
+    sequelize,
+    DataTypes,
+  );
+
+  // Start User Payment //
+  db.userPayment =
+    require("../modules/healthManager/models/userPayments.model")(
+      sequelize,
+      DataTypes,
+    );
+  // End User Payment //
+
   return db;
 };
