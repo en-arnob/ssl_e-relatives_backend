@@ -28,9 +28,9 @@ exports.paynow = async (req, res) => {
       total_amount: obj?.totalAmount,
       currency: "BDT",
       tran_id: transactionId, // use unique tran_id for each api call
-      success_url: "https://e-relatives.com",
-      fail_url: "http://localhost:3030/fail",
-      cancel_url: "https://e-relatives.com/health-manager/",
+      success_url: "https://e-relatives.com/health-manager/success",
+      fail_url: "https://e-relatives.com/health-manager/failed",
+      cancel_url: "https://e-relatives.com/health-manager/cancelled",
       ipn_url: "https://admin.e-relatives.com/api/payment-gateway/ssl/ipn",
       shipping_method: "NO",
       product_name: obj.productName,
@@ -113,7 +113,7 @@ exports.ipn = async (req, res) => {
         );
         const userId = findInitial.user_id;
         const user = await User.findByPk(userId);
-        const testMessage = `Dear ${user.f_name}, Your payment for ${findInitial.product_name} Health Manager Subscription is successful. Bill Paid: ${ipnResponse?.amount} BDT`;
+        const testMessage = `Dear ${user.f_name}, Your payment for ${findInitial.product_name} Health Manager Subscription is successful. Bill Paid: ${ipnResponse?.amount} BDT. Website: https://e-relatives.com`;
         axios
           .post(
             `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${user.mobile}&message=${testMessage}`,
@@ -127,9 +127,73 @@ exports.ipn = async (req, res) => {
           });
       }
     } else if (ipnResponse.status === "FAILED") {
+      const findInitial = await UserPayment.findOne({
+        where: {
+          tran_id: ipnResponse.tran_id,
+        },
+      });
+      if (findInitial) {
+        const update = await UserPayment.update(
+          {
+            tran_date: ipnResponse.tran_date,
+            total_amount: ipnResponse.amount,
+            status: 2,
+          },
+          {
+            where: {
+              tran_id: ipnResponse.tran_id,
+            },
+          },
+        );
+        const userId = findInitial.user_id;
+        const user = await User.findByPk(userId);
+        const testMessage = `Dear ${user.f_name}, Your payment for ${findInitial.product_name} Health Manager Subscription is failed. Please try again. Thank you. Website: https://e-relatives.com`;
+        axios
+          .post(
+            `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${user.mobile}&message=${testMessage}`,
+          )
+          .then(() => {
+            console.log("Message Sent");
+            res.status(200).send({ message: "Updated" });
+          })
+          .catch((error) => {
+            console.log("error");
+          });
+      }
     } else if (ipnResponse.status === "CANCELLED") {
-    } else if (ipnResponse.status === "UNATTEMPTED") {
-    } else if (ipnResponse.status === "EXPIRED") {
+      const findInitial = await UserPayment.findOne({
+        where: {
+          tran_id: ipnResponse.tran_id,
+        },
+      });
+      if (findInitial) {
+        const update = await UserPayment.update(
+          {
+            tran_date: ipnResponse.tran_date,
+            total_amount: ipnResponse.amount,
+            status: 3,
+          },
+          {
+            where: {
+              tran_id: ipnResponse.tran_id,
+            },
+          },
+        );
+        const userId = findInitial.user_id;
+        const user = await User.findByPk(userId);
+        const testMessage = `Dear ${user.f_name}, You cancelled your payment for ${findInitial.product_name} Health Manager Subscription. Website: https://e-relatives.com`;
+        axios
+          .post(
+            `https://api.greenweb.com.bd/api.php?token=${process.env.SMS_API_TOKEN}&to=${user.mobile}&message=${testMessage}`,
+          )
+          .then(() => {
+            console.log("Message Sent");
+            res.status(200).send({ message: "Updated" });
+          })
+          .catch((error) => {
+            console.log("error");
+          });
+      }
     }
   } catch (e) {
     errorResponse(
